@@ -4,7 +4,7 @@ const token = urlParams.get('token');
 if (token) {
     localStorage.setItem('token', token);
     // Retire le token de l'URL
-    window.history.replaceState({}, document.title, "/chat");
+    window.history.replaceState({}, document.title, "/");
 }
 
 // Vérifie si l'utilisateur est authentifié
@@ -107,4 +107,12 @@ emojis.forEach(emoji => {
         emojiPicker.style.display = 'none';
     };
     emojiPicker.appendChild(emojiButton);
+});
+
+// Fonction pour détecter la touche "Entrée" dans le champ de message
+document.getElementById('message').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+    }
 });
