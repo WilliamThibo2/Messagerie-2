@@ -77,6 +77,11 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
+// Route pour afficher la page d'inscription
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/register.html'));
+});
+
 // Route pour afficher la page de chat après la connexion
 app.get('/chat', authController.verifyToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
