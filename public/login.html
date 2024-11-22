@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style_auth.css">
-
+    <title>Connexion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/style_auth.css">
 </head>
 <body>
     <script>
-        // Redirection si un token existe
+        // Vérifie si l'utilisateur est déjà connecté
         const token = localStorage.getItem('token');
         if (token) {
-            window.location.href = '/chat';
+            window.location.href = 'https://messagerie2-1.onrender.com/';
         }
     </script>
 
@@ -21,74 +21,57 @@
         <i class="fas fa-sun"></i>
     </div>
 
-    <div class="auth-container">
-        <img src="/assets/images/logo.png" alt="Logo" class="logo">
-        <h2>Inscription</h2>
-
-        <!-- Champ email -->
-        <div class="auth-field input-group">
+    <div class="auth-container bounce-in">
+        <h2>Connexion</h2>
+        <div class="input-group">
             <i class="fas fa-envelope"></i>
             <input id="email" type="email" placeholder="Votre email" required>
         </div>
-
-        <!-- Champ mot de passe -->
-        <div class="auth-field input-group">
+        <div class="input-group">
             <i class="fas fa-lock"></i>
             <input id="password" type="password" placeholder="Votre mot de passe" required>
         </div>
-
-        <!-- Champ confirmation mot de passe -->
-        <div class="auth-field input-group">
-            <i class="fas fa-lock"></i>
-            <input id="confirmPassword" type="password" placeholder="Confirmez votre mot de passe" required>
-        </div>
-
-        <!-- Affichage des erreurs -->
-        <p id="passwordError" class="error-message"></p>
-
-        <!-- Bouton s'inscrire -->
-        <button class="submit-button" onclick="register()">S'inscrire</button>
-
-        <p>Déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
+        <button class="submit-button" onclick="login()">Se connecter</button>
+        <p id="error-message" class="error-message"></p>
+        <p class="switch-link">Pas encore de compte ? <a href="/register">Inscrivez-vous ici</a></p>
+        <button class="google-login-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
+            Se connecter avec Google
+        </button>
     </div>
 
-    <script src="/js/animation.js"></script>
-    <script src="/js/theme.js"></script>
     <script>
-        async function register() {
+        async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const passwordError = document.getElementById('passwordError');
-
-            if (password !== confirmPassword) {
-                passwordError.innerText = "Les mots de passe ne correspondent pas.";
-                return;
-            } else {
-                passwordError.innerText = "";
-            }
 
             try {
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
                 });
 
                 if (response.ok) {
-                    alert("Inscription réussie. Connectez-vous maintenant !");
-                    window.location.href = '/login';
-                } else {
                     const data = await response.json();
-                    alert(data.error || "Erreur d'inscription.");
+                    localStorage.setItem('token', data.token);
+                    window.location.href = 'https://messagerie2-1.onrender.com/';
+                } else if (response.status === 401) {
+                    document.getElementById('error-message').innerText = "Identifiants incorrects.";
+                } else {
+                    document.getElementById('error-message').innerText = "Erreur de connexion.";
                 }
             } catch (error) {
-                console.error("Erreur:", error);
-                alert("Erreur d'inscription. Vérifiez votre connexion.");
+                document.getElementById('error-message').innerText = "Erreur réseau.";
             }
         }
+
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            themeToggle.innerHTML = document.body.classList.contains('dark') ? 
+                '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
     </script>
 </body>
 </html>
