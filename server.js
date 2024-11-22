@@ -54,39 +54,35 @@ app.use(express.static('public'));
 
 // Middleware pour la gestion des sessions avec Socket.IO
 io.use((socket, next) => {
-    const token = socket.handshake.query.token; // Récupération du token via la query string
+    const token = socket.handshake.query.token;
     if (!token) {
         return next(new Error('Authentication error: Token missing'));
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Validation du token
-        socket.user = decoded; // Stockage des informations utilisateur pour ce socket
-        next(); // Poursuite de la connexion
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        socket.user = decoded; // Stockage des informations utilisateur
+        next();
     } catch (error) {
         console.error('Authentication error:', error.message);
         next(new Error('Authentication error: Invalid token'));
     }
 });
 
-
 // Routes d'authentification
 app.use('/api/auth', authRoutes);
 
-// Route pour afficher la page de connexion
+// Routes pour les pages HTML
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-// Route pour afficher la page d'inscription
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/register.html'));
 });
 
-// Route pour afficher la page de chat après la connexion
-app.get('/chat', authController.verifyToken, (req, res) => {
+app.get('/', authController.verifyToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
-
 
 // Gestion des connexions des utilisateurs avec Socket.IO
 let connectedUsers = {};
@@ -94,25 +90,24 @@ let connectedUsers = {};
 io.on('connection', (socket) => {
     console.log('Nouvelle connexion:', socket.id);
 
-    socket.on('join', ({ token }) => {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            socket.request.session.userEmail = decoded.email;
-            socket.request.session.save();
-            connectedUsers[decoded.email] = socket.id;
-            console.log(`${decoded.email} connecté avec l'ID ${socket.id}`);
-        } catch (error) {
-            console.log("Token invalide");
-            socket.disconnect();
-        }
-    });
+    // Ajouter l'utilisateur à connectedUsers après la connexion
+    const userEmail = socket.user.email;
+    connectedUsers[userEmail] = socket.id;
+    console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
 
+    // Réception des messages privés
     socket.on('private_message', ({ to, message }) => {
-        const userEmail = socket.request.session?.userEmail;
-        if (userEmail) {
+        if (connectedUsers[userEmail]) {
             const recipientSocket = connectedUsers[to];
             if (recipientSocket) {
-                io.to(recipientSocket).emit('receive_message', { from: userEmail, message });
+                io.to(recipientSocket).emit('receive_message', {
+                    from: userEmail,
+                    message,
+                    timestamp: new Date().toISOString(),
+                });
+                console.log(`Message de ${userEmail} à ${to}: ${message}`);
+            } else {
+                console.log(`Destinataire ${to} non trouvé`);
             }
         } else {
             console.log("Utilisateur non authentifié");
@@ -121,7 +116,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('Utilisateur déconnecté:', socket.id);
-        for (let email in connectedUsers) {
+        for (const email in connectedUsers) {
             if (connectedUsers[email] === socket.id) {
                 delete connectedUsers[email];
             }
