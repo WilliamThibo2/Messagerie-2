@@ -129,6 +129,6 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(process.env.PORT || 3000, () => {
-    console.log(`Serveur démarré sur le port ${process.env.PORT || 3000}`);
+server.listen(process.env.PORT || 10000, () => {
+    console.log(`Serveur démarré sur le port ${process.env.PORT || 10000}`);
 });
