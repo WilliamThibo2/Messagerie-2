@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/style_auth.css">
+</head>
+<body class="auth-body">
+    <script>
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/chat';
+        }
+    </script>
+    <div class="theme-toggle">
+        <i class="fas fa-sun"></i>
+    </div>
+    <div class="auth-container">
+        <h2>Inscription</h2>
+        <div class="auth-field input-group">
+            <i class="fas fa-envelope"></i>
+        <input id="email" name="email" type="email" placeholder="Votre email" required>
+        </div>
+        <div class="auth-field input-group">
+            <i class="fas fa-lock"></i>
+            <input id="password" name="password" type="password" placeholder="Votre mot de passe" required>
+        </div>
+        <div class="auth-field input-group">
+            <i class="fas fa-lock"></i>
+            <input id="confirmPassword" name="password" type="password" placeholder="Confirmez votre mot de passe" required>
+        </div>
+        <p id="passwordError" class="error-message"></p>
+        <button class="submit-button" onclick="register()">S'inscrire</button>
+        <p>Déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
+    </div>
+
+    <script>
+        async function register() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordError = document.getElementById('passwordError');
+
+            if (password !== confirmPassword) {
+                passwordError.innerText = "Les mots de passe ne correspondent pas.";
+                return;
+            } else {
+                passwordError.innerText = "";
+            }
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    alert("Inscription réussie. Vous pouvez maintenant vous connecter.");
+                    window.location.href = '/login';
+                } else {
+                    const data = await response.json();
+                    alert(data.error || "Erreur lors de l'inscription");
+                }
+            } catch (error) {
+                console.error("Erreur lors de l'inscription :", error);
+                alert("Erreur lors de l'inscription");
+            }
+        }
+    </script>
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.innerHTML = body.classList.contains('dark') ? 
+                '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+    </script>
+</body>
+</html>

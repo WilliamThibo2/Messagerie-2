@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/style_auth.css">
+</head>
+<body class="auth-body">
+    <script>
+        // Si un token existe, rediriger l'utilisateur vers la page de messagerie
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = 'https://messagerie2-1.onrender.com/'; // Redirection vers l'URL souhaitée
+        }
+    </script>
+
+    <div class="theme-toggle">
+        <i class="fas fa-sun"></i>
+    </div>
+
+    <div class="auth-container">
+        <h2>Connexion</h2>
+
+        <!-- Champ pour l'email -->
+        <div class="auth-field input-group">
+            <i class="fas fa-envelope"></i>
+            <input id="email" type="email" placeholder="Votre email" required>
+        </div>
+
+        <!-- Champ pour le mot de passe -->
+        <div class="auth-field input-group">
+            <i class="fas fa-lock"></i>
+            <input id="password" type="password" placeholder="Votre mot de passe" required>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button class="submit-button" onclick="login()">Se connecter</button>
+
+        <!-- Affichage des erreurs -->
+        <p id="error-message" class="error-message"></p>
+
+        <p>Pas encore de compte ? <a href="/register">Inscrivez-vous ici</a></p>
+
+        <!-- Bouton pour se connecter avec Google -->
+        <a href="/auth/google" class="btn-google">
+            <i class="fab fa-google"></i> Se connecter avec Google
+        </a>
+    </div>
+
+    <script>
+        // Fonction de connexion
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+                    window.location.href = 'https://messagerie2-1.onrender.com/'; // Redirige vers l'URL externe après connexion
+                } else if (response.status === 401) {
+                    document.getElementById('error-message').innerText = "Identifiants incorrects. Veuillez réessayer.";
+                } else {
+                    document.getElementById('error-message').innerText = "Échec de la connexion. Veuillez réessayer.";
+                }
+            } catch (error) {
+                console.error("Erreur lors de la connexion :", error);
+                document.getElementById('error-message').innerText = "Erreur lors de la connexion. Vérifiez votre connexion réseau.";
+            }
+        }
+    </script>
+
+    <script>
+        // Gestion du thème sombre
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.innerHTML = body.classList.contains('dark') ? 
+                '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+    </script>
+</body>
+</html>
