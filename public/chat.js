@@ -1,5 +1,6 @@
 // Initialisation de la connexion Socket.IO
-const socket = io();
+const socket = io({ query: { token: storedToken } });
+
 
 // Récupère le token de l'URL et le stocke dans le localStorage si présent
 const urlParams = new URLSearchParams(window.location.search);
