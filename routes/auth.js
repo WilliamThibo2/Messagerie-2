@@ -5,7 +5,7 @@ const { register, login } = require('../controllers/authController');
 const User = require('../models/User');
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+const JWT_SECRET = process.env.JWT_SECRET || '3b3d5fc7c8d783b549ce8ec7b8be105cc57c9da2b22e7df619f9a346b7936918426fccf7a615fa0bb52a7d16d8e57abbe88c98e776fbff96e886be8adda2d035';
 
 router.post('/register', register);
 router.post('/login', login);
