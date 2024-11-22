@@ -66,13 +66,10 @@ app.get('/login', (req, res) => {
 });
 
 // Route pour afficher la page de chat après la connexion
-app.get('/chat', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.sendFile(path.join(__dirname, 'public/index.html'));
-    } else {
-        res.redirect('/login');
-    }
+app.get('/chat', authController.verifyToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
+
 
 // Gestion des connexions des utilisateurs avec Socket.IO
 let connectedUsers = {};
