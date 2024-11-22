@@ -1,7 +1,3 @@
-// Initialisation de la connexion Socket.IO
-const socket = io({ query: { token: storedToken } });
-
-
 // Récupère le token de l'URL et le stocke dans le localStorage si présent
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
@@ -15,10 +11,18 @@ if (token) {
 const storedToken = localStorage.getItem('token');
 if (!storedToken) {
     window.location.href = '/login';
-} else {
-    // Initialisation de la connexion Socket.IO avec le token
-    socket.emit('join', { token: storedToken });
-}
+} 
+
+// Initialisation de la connexion Socket.IO avec le token
+const socket = io({ query: { token: storedToken } });
+
+// Gestion des erreurs de connexion
+socket.on('connect_error', (err) => {
+    console.error('Erreur de connexion Socket.IO:', err.message);
+    alert('Erreur d\'authentification. Veuillez vous reconnecter.');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+});
 
 // Fonction pour formater la date en style "messagerie populaire"
 function formatDate(dateString) {
