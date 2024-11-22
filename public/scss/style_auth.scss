@@ -1,0 +1,152 @@
+$primary-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
+$primary-color: #6e8efb;
+$secondary-color: #a777e3;
+$white: #ffffff;
+$black: #333;
+$gray: #aaa;
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: $primary-gradient;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.5s;
+}
+
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
+    padding: 50px;
+    background: $white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: scaleUp 0.8s ease-out;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        left: -10%;
+        width: 120%;
+        height: 120%;
+        background: $primary-gradient;
+        filter: blur(60px);
+        z-index: -1;
+    }
+}
+
+h2 {
+    font-size: 28px;
+    color: $black;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+
+    input {
+        width: 100%;
+        padding: 14px 18px;
+        padding-left: 50px;
+        font-size: 16px;
+        border: 1px solid $gray;
+        border-radius: 10px;
+        background: #f9f9f9;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: $primary-color;
+            outline: none;
+            background: $white;
+            box-shadow: 0 0 5px rgba($primary-color, 0.5);
+        }
+    }
+
+    i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $gray;
+    }
+}
+
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background: $primary-gradient;
+    color: $white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.switch-link {
+    font-size: 14px;
+    color: $black;
+
+    a {
+        color: $primary-color;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: $black;
+    cursor: pointer;
+
+    i {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    &:hover i {
+        transform: scale(1.1);
+        color: $primary-color;
+    }
+}
+
+/* Animations */
+@keyframes scaleUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
