@@ -1,41 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style_auth.css">
-
+    <link rel="stylesheet" href="/style_auth.css">
 </head>
-<body class="auth-body">
+<body>
     <script>
+        // Vérifie si l'utilisateur est déjà connecté
         const token = localStorage.getItem('token');
         if (token) {
-            window.location.href = '/chat';
+            window.location.href = '/';
         }
     </script>
+
     <div class="theme-toggle">
         <i class="fas fa-sun"></i>
     </div>
-    <div class="auth-container">
+
+    <div class="auth-container bounce-in">
         <h2>Inscription</h2>
-        <div class="auth-field input-group">
+        <div class="input-group">
             <i class="fas fa-envelope"></i>
-        <input id="email" name="email" type="email" placeholder="Votre email" required>
+            <input id="email" type="email" placeholder="Votre email" required>
         </div>
-        <div class="auth-field input-group">
+        <div class="input-group">
             <i class="fas fa-lock"></i>
-            <input id="password" name="password" type="password" placeholder="Votre mot de passe" required>
+            <input id="password" type="password" placeholder="Votre mot de passe" required>
         </div>
-        <div class="auth-field input-group">
+        <div class="input-group">
             <i class="fas fa-lock"></i>
-            <input id="confirmPassword" name="password" type="password" placeholder="Confirmez votre mot de passe" required>
+            <input id="confirmPassword" type="password" placeholder="Confirmez votre mot de passe" required>
         </div>
         <p id="passwordError" class="error-message"></p>
         <button class="submit-button" onclick="register()">S'inscrire</button>
-        <p>Déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
+        <p class="switch-link">Déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
     </div>
 
     <script>
@@ -43,21 +45,16 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const passwordError = document.getElementById('passwordError');
 
             if (password !== confirmPassword) {
-                passwordError.innerText = "Les mots de passe ne correspondent pas.";
+                document.getElementById('passwordError').innerText = "Les mots de passe ne correspondent pas.";
                 return;
-            } else {
-                passwordError.innerText = "";
             }
 
             try {
                 const response = await fetch('/api/auth/register', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
 
@@ -66,21 +63,17 @@
                     window.location.href = '/login';
                 } else {
                     const data = await response.json();
-                    alert(data.error || "Erreur lors de l'inscription");
+                    alert(data.error || "Erreur lors de l'inscription.");
                 }
             } catch (error) {
-                console.error("Erreur lors de l'inscription :", error);
-                alert("Erreur lors de l'inscription");
+                alert("Erreur réseau.");
             }
         }
-    </script>
-    <script>
+
         const themeToggle = document.querySelector('.theme-toggle');
-        const body = document.body;
-        
         themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            themeToggle.innerHTML = body.classList.contains('dark') ? 
+            document.body.classList.toggle('dark');
+            themeToggle.innerHTML = document.body.classList.contains('dark') ? 
                 '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         });
     </script>
