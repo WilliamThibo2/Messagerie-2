@@ -1,0 +1,28 @@
+body.dark {
+    background: linear-gradient(135deg, #333, #555);
+    color: #fff;
+
+    .auth-container {
+        background: #222;
+        color: #fff;
+
+        input {
+            background: #333;
+            border: 1px solid #555;
+            color: #fff;
+
+            &:focus {
+                background: #444;
+                border-color: #6e8efb;
+            }
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+        }
+    }
+
+    .theme-toggle i {
+        color: #6e8efb;
+    }
+}
