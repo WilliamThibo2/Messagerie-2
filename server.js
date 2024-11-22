@@ -54,8 +54,20 @@ app.use(express.static('public'));
 
 // Middleware pour la gestion des sessions avec Socket.IO
 io.use((socket, next) => {
-    sessionMiddleware(socket.request, socket.request.res || {}, next);
+    const token = socket.handshake.query.token; // Récupération du token via la query string
+    if (!token) {
+        return next(new Error('Authentication error: Token missing'));
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Validation du token
+        socket.user = decoded; // Stockage des informations utilisateur pour ce socket
+        next(); // Poursuite de la connexion
+    } catch (error) {
+        console.error('Authentication error:', error.message);
+        next(new Error('Authentication error: Invalid token'));
+    }
 });
+
 
 // Routes d'authentification
 app.use('/api/auth', authRoutes);
