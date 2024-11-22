@@ -94,6 +94,7 @@ body {
     background-color: #f0f2f5;
     position: relative;
     animation: slide-up 0.4s ease forwards;
+    word-wrap: break-word; /* Gérer les longs textes */
 }
 
 .message-input {
@@ -122,6 +123,11 @@ body {
     font-size: 1em;
     margin-left: 10px;
     transition: background-color 0.3s ease;
+}
+
+.send-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .send-button:hover {
@@ -170,20 +176,6 @@ body.dark-mode {
         transform: translateY(0);
     }
 }
-/* Style du bouton emoji */
-#emojiButton {
-    background-color: #f0f0f0;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-}
-
-#emojiButton:hover {
-    background-color: #e0e0e0;
-}
 
 /* Style du bouton emoji */
 #emojiButton {
@@ -194,38 +186,22 @@ body.dark-mode {
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.3s ease;
-    outline: none;  /* Supprime le contour lorsqu'il est sélectionné */
+    outline: none;
 }
 
-/* Effet de survol */
 #emojiButton:hover {
     background-color: #e0e0e0;
 }
-/* Style du bouton émoji */
-.emoji-button {
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0 10px;
-    color: #333;
-    transition: color 0.3s;
-}
 
-.emoji-button:hover {
-    color: #007bff;
-}
-
-/* Style de la boîte du sélecteur d'émojis */
 .emoji-picker {
     position: absolute;
-    bottom: 60px; /* Ajuste la distance au-dessus de la zone de saisie */
-    right: 20px; /* Positionne près du bouton émoji */
+    bottom: 60px;
+    right: 20px;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    display: none; /* Initialement masqué */
+    display: none;
     max-width: 280px;
     max-height: 200px;
     overflow-y: auto;
@@ -233,14 +209,12 @@ body.dark-mode {
     z-index: 10;
 }
 
-/* Afficher le sélecteur lorsque actif */
 .emoji-picker.active {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
 }
 
-/* Style individuel des émojis */
 .emoji-picker span {
     font-size: 1.3rem;
     cursor: pointer;
@@ -253,7 +227,6 @@ body.dark-mode {
     background: #f0f0f0;
 }
 
-/* Mode sombre pour le sélecteur d'émojis */
 .dark-mode .emoji-picker {
     background: #333;
     color: #fff;
@@ -268,8 +241,23 @@ body.dark-mode {
     font-size: 0.75em;
     color: #888;
     margin-left: 10px;
-    float: right; /* pour aligner les dates à droite */
+    float: right;
 }
 
+/* Accessibilité */
+button:focus, .emoji-button:focus {
+    outline: 2px solid #007bff;
+}
 
-
+/* Responsive design */
+@media (max-width: 600px) {
+    .sidebar {
+        display: none;
+    }
+    .chat-app {
+        flex-direction: column;
+    }
+    .chat-container {
+        width: 100%;
+    }
+}
