@@ -84,24 +84,16 @@ app.get('/', authController.verifyToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-const groupRoutes = require('./routes/groupRoutes');
-app.use('/api/groups', groupRoutes);
-
 // Gestion des connexions des utilisateurs avec Socket.IO
 let connectedUsers = {};
 
 io.on('connection', (socket) => {
     console.log('Nouvelle connexion:', socket.id);
 
+    // Ajouter l'utilisateur à connectedUsers après la connexion
     const userEmail = socket.user.email;
     connectedUsers[userEmail] = socket.id;
     console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
-
-    // Rejoindre des groupes (si nécessaire)
-    socket.on('join_group', (groupId) => {
-        socket.join(groupId);
-        console.log(`${userEmail} a rejoint le groupe ${groupId}`);
-    });
 
     // Réception des messages privés
     socket.on('private_message', ({ to, message }) => {
@@ -122,17 +114,6 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Messages de groupe
-    socket.on('group_message', ({ groupId, message }) => {
-        io.to(groupId).emit('group_message', {
-            from: userEmail,
-            message,
-            timestamp: new Date().toISOString(),
-        });
-        console.log(`Message dans le groupe ${groupId} par ${userEmail} : ${message}`);
-    });
-
-    // Déconnexion de l'utilisateur
     socket.on('disconnect', () => {
         console.log('Utilisateur déconnecté:', socket.id);
         for (const email in connectedUsers) {
