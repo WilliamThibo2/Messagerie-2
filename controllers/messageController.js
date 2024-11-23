@@ -72,15 +72,25 @@ exports.getMessages = async (req, res) => {
     }
 };
 
-// Récupérer les conversations de l'utilisateur
+// Récupérer toutes les conversations de l'utilisateur connecté
 exports.getConversations = async (req, res) => {
     const { userId } = req;
 
     try {
-        // Récupérez les conversations de l'utilisateur
-        const conversations = await Conversation.find({ participants: userId }).populate('participants', 'email');
+        // Récupérer les conversations où l'utilisateur est un participant
+        const conversations = await Conversation.find({ participants: userId })
+            .populate('participants', 'email') // Inclut les emails des participants
+            .lean();
 
-        res.json(conversations);
+        // Ajouter un aperçu du dernier message dans chaque conversation
+        for (let conversation of conversations) {
+            const lastMessage = await Message.findOne({ conversation: conversation._id })
+                .sort({ createdAt: -1 })
+                .lean();
+            conversation.lastMessage = lastMessage ? lastMessage.text : "Pas encore de messages.";
+        }
+
+        res.status(200).json({ conversations });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Erreur lors de la récupération des conversations." });
