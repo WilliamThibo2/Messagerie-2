@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('../models/User'); // Chemin à ajuster si nécessaire
+const User = require('../models/User');
 
 module.exports = function (passport) {
     passport.use(new GoogleStrategy({
@@ -10,7 +10,7 @@ module.exports = function (passport) {
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
-            console.log("Google profile:", profile); // Log pour vérifier le profil
+            console.log("Google profile:", profile);
             let user = await User.findOne({ googleId: profile.id });
 
             if (!user) {
@@ -19,11 +19,11 @@ module.exports = function (passport) {
                     email: profile.emails[0].value,
                     username: profile.displayName
                 });
-                console.log("User created:", user); // Log pour vérifier la création de l'utilisateur
+                console.log("User created:", user);
             }
             return done(null, user);
         } catch (error) {
-            console.error("Error during authentication:", error); // Log pour capturer l'erreur
+            console.error("Error during authentication:", error);
             return done(error, null);
         }
     }));
@@ -32,10 +32,10 @@ module.exports = function (passport) {
     passport.deserializeUser(async (id, done) => {
         try {
             const user = await User.findById(id);
-            console.log("Deserialized user:", user); // Log pour vérifier la désérialisation
+            console.log("Deserialized user:", user);
             done(null, user);
         } catch (error) {
-            console.error("Error deserializing user:", error); // Log pour capturer l'erreur
+            console.error("Error deserializing user:", error);
             done(error, null);
         }
     });
