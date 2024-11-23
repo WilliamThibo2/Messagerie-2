@@ -130,3 +130,25 @@ io.on('connection', (socket) => {
 server.listen(process.env.PORT || 3000, () => {
     console.log(`Serveur démarré sur le port ${process.env.PORT || 3000}`);
 });
+
+io.on('connection', (socket) => {
+    console.log('Nouvelle connexion:', socket.id);
+
+    const userEmail = socket.user.email;
+    connectedUsers[userEmail] = socket.id;
+
+    // Messages de groupe
+    socket.on('group_message', ({ groupId, message }) => {
+        io.to(groupId).emit('group_message', {
+            from: userEmail,
+            message,
+            timestamp: new Date().toISOString(),
+        });
+        console.log(`Message dans le groupe ${groupId} par ${userEmail} : ${message}`);
+    });
+
+    socket.on('disconnect', () => {
+        delete connectedUsers[userEmail];
+    });
+});
+
