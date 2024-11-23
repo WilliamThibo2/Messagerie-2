@@ -5,7 +5,7 @@ const { register, login } = require('../controllers/authController');
 const User = require('../models/User');
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || '3b3d5fc7c8d783b549ce8ec7b8be105cc57c9da2b22e7df619f9a346b7936918426fccf7a615fa0bb52a7d16d8e57abbe88c98e776fbff96e886be8adda2d035';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_secret_jwt';
 
 // Routes existantes
 router.post('/register', register);
@@ -26,18 +26,31 @@ router.delete("/deleteAccount", async (req, res) => {
     }
 });
 
-// Routes Google OAuth (ajoutées)
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// Routes Google OAuth
+router.get('/google', 
+    passport.authenticate('google', { 
+        scope: ['profile', 'email'] 
+    })
+);
 
-router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+router.get('/google/callback', 
+    passport.authenticate('google', { 
+        failureRedirect: '/login',
+        session: false 
+    }),
     (req, res) => {
-        if (req.isAuthenticated()) {
-            const token = jwt.sign({ id: req.user.id, email: req.user.email }, JWT_SECRET, { expiresIn: '1h' });
-            res.redirect(`/chat?token=${token}`);
-        } else {
-            res.redirect('/login');
-        }
+        // Générer un token JWT
+        const token = jwt.sign(
+            { 
+                id: req.user.id, 
+                email: req.user.email 
+            }, 
+            JWT_SECRET, 
+            { expiresIn: '1h' }
+        );
+
+        // Redirection avec le token
+        res.redirect(`/chat?token=${token}`);
     }
 );
 
