@@ -84,6 +84,9 @@ app.get('/', authController.verifyToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+const groupRoutes = require('./routes/groupRoutes');
+app.use('/api/groups', groupRoutes);
+
 // Gestion des connexions des utilisateurs avec Socket.IO
 let connectedUsers = {};
 
