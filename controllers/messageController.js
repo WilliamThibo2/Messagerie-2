@@ -2,26 +2,32 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 
-// Envoyer un message privé dans une conversation
 exports.sendMessage = async (req, res) => {
-    const { to, content } = req.body; // "to" peut être une adresse email ou un ID utilisateur
+    const { to, content } = req.body;
     const from = req.userId;
 
+    // Validation des données d'entrée
+    if (!to || !content) {
+        return res.status(400).json({ error: "Destinataire et contenu requis." });
+    }
+
     try {
-        // Vérifiez si le destinataire existe
+        // Vérifier si le destinataire existe
         const recipient = await User.findOne({ email: to });
         if (!recipient) {
             return res.status(404).json({ error: "Destinataire introuvable." });
         }
 
-        // Rechercher ou créer une conversation entre l'expéditeur et le destinataire
+        // Rechercher ou créer une conversation
         let conversation = await Conversation.findOne({
             participants: { $all: [from, recipient._id] }
         });
 
         if (!conversation) {
-            // Créer une nouvelle conversation si elle n'existe pas
-            conversation = new Conversation({ participants: [from, recipient._id] });
+            conversation = new Conversation({ 
+                participants: [from, recipient._id],
+                type: 'private'
+            });
             await conversation.save();
         }
 
@@ -30,18 +36,21 @@ exports.sendMessage = async (req, res) => {
             from,
             to: recipient._id,
             conversation: conversation._id,
-            text: content
+            content,
+            type: 'private'
         });
         await message.save();
 
-        res.status(201).json({ message: "Message envoyé avec succès", data: message });
+        res.status(201).json({ 
+            message: "Message envoyé avec succès", 
+            data: message 
+        });
     } catch (error) {
-        console.error(error);
+        console.error("Erreur lors de l'envoi du message :", error);
         res.status(500).json({ error: "Erreur lors de l'envoi du message." });
     }
 };
 
-// Récupérer l'historique des messages d'une conversation
 exports.getMessages = async (req, res) => {
     const { userId } = req;
     const { toEmail } = req.params;
@@ -63,7 +72,9 @@ exports.getMessages = async (req, res) => {
         }
 
         // Récupérez les messages de la conversation
-        const messages = await Message.find({ conversation: conversation._id }).sort({ createdAt: 1 });
+        const messages = await Message.find({ conversation: conversation._id })
+            .sort({ createdAt: 1 })
+            .populate('from', 'email');
 
         res.json({ conversationId: conversation._id, messages });
     } catch (error) {
@@ -72,14 +83,13 @@ exports.getMessages = async (req, res) => {
     }
 };
 
-// Récupérer toutes les conversations de l'utilisateur connecté
 exports.getConversations = async (req, res) => {
     const { userId } = req;
 
     try {
         // Récupérer les conversations où l'utilisateur est un participant
         const conversations = await Conversation.find({ participants: userId })
-            .populate('participants', 'email') // Inclut les emails des participants
+            .populate('participants', 'email')
             .lean();
 
         // Ajouter un aperçu du dernier message dans chaque conversation
@@ -87,7 +97,7 @@ exports.getConversations = async (req, res) => {
             const lastMessage = await Message.findOne({ conversation: conversation._id })
                 .sort({ createdAt: -1 })
                 .lean();
-            conversation.lastMessage = lastMessage ? lastMessage.text : "Pas encore de messages.";
+            conversation.lastMessage = lastMessage ? lastMessage.content : "Pas encore de messages.";
         }
 
         res.status(200).json({ conversations });
