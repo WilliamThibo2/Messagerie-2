@@ -1,9 +1,17 @@
 const express = require('express');
-const router = express.Router();
-const messageController = require('../controllers/messageController');
-const authController = require('../controllers/authController');
+const { createOrGetConversation, getConversationMessages } = require('../controllers/conversationController');
+const { sendMessage } = require('../controllers/messageController');
+const authenticate = require('../middlewares/authenticate');
 
-router.post('/send', authController.verifyToken, messageController.sendMessage);
-router.get('/:toEmail', authController.verifyToken, messageController.getMessages);
+const router = express.Router();
+
+// Route pour créer ou récupérer une conversation
+router.post('/conversation', authenticate, createOrGetConversation);
+
+// Route pour récupérer les messages d'une conversation
+router.get('/conversation/:conversationId/messages', authenticate, getConversationMessages);
+
+// Route pour envoyer un message (mise à jour pour inclure la conversation)
+router.post('/send', authenticate, sendMessage);
 
 module.exports = router;
