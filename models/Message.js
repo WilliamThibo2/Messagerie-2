@@ -14,13 +14,20 @@ const MessageSchema = new mongoose.Schema({
     conversation: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Conversation',
-        required: true
+        required: true,
+        index: true  // Indexe pour améliorer les performances des requêtes
     },
     content: { 
         type: String, 
         required: true, 
         trim: true,
-        maxlength: 1000  // Limite la longueur du message
+        maxlength: 1000, 
+        validate: {
+            validator: function(v) {
+                return v.trim().length > 0;  // Message non vide après suppression des espaces
+            },
+            message: 'Le message ne peut pas être vide.'
+        }
     },
     type: {
         type: String,
