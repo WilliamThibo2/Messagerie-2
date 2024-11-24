@@ -272,31 +272,6 @@ body.dark-mode {
 .dark-mode .emoji-content button:hover {
     background: #444;
 }
-/* Barre de recherche */
-.emoji-search {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.emoji-search:focus {
-    border-color: #3a6f9c;
-}
-
-.dark-mode .emoji-search {
-    background: #333;
-    color: #ccc;
-    border-color: #444;
-}
-
-.dark-mode .emoji-search:focus {
-    border-color: #5c85c9;
-}
 
 .message-date {
     font-size: 0.75em;
