@@ -95,12 +95,16 @@ socket.on('receive_message', ({ _id, from, message, timestamp }) => {
     const messageElement = document.createElement("li");
     messageElement.id = _id;  // Utilise _id pour l'ID du message
     messageElement.classList.add("received-message");
+
+    // Vérifiez si l'utilisateur connecté est l'expéditeur
+    const isSender = from === socket.user.email; // Assurez-vous que `from` contient l'email ou l'ID de l'expéditeur
+
     messageElement.innerHTML = `
         <strong>${from}:</strong> ${message} 
         <span class="message-date">${formatDate(timestamp)}</span>
-        <button class="delete-message-btn" onclick="deleteMessage('${_id}')">
+        ${isSender ? `<button class="delete-message-btn" onclick="deleteMessage('${_id}')">
             <i class="fas fa-trash"></i>
-        </button>
+        </button>` : ''}
     `;    
     document.getElementById('messages').appendChild(messageElement);
 
