@@ -37,12 +37,6 @@
                 </button>
 <!-- Sélecteur d'émojis -->
 <div id="emojiPicker" class="emoji-picker">
-    <input
-        type="text"
-        id="emojiSearch"
-        placeholder="Rechercher un émoji..."
-        class="emoji-search"
-    />
     <div class="emoji-tabs">
         <button class="emoji-tab" data-category="smileys">😊</button>
         <button class="emoji-tab" data-category="animals">🐻</button>
@@ -59,7 +53,6 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/chat.js"></script>
-    <script type="module" src="/emoji_search.js"></script>
     
     <script>
         // Vérification du token côté client
