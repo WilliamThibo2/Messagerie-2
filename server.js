@@ -88,12 +88,18 @@ app.get('/', authController.verifyToken, (req, res) => {
 let connectedUsers = {};
 
 io.on('connection', (socket) => {
-    console.log('Nouvelle connexion:', socket.id);
-
-    // Ajouter l'utilisateur à connectedUsers après la connexion
     const userEmail = socket.user.email;
     connectedUsers[userEmail] = socket.id;
     console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
+
+    // Notifier les autres utilisateurs de la connexion
+    socket.broadcast.emit('user_status', { email: userEmail, status: 'online' });
+
+    socket.on('disconnect', () => {
+        delete connectedUsers[userEmail];
+        socket.broadcast.emit('user_status', { email: userEmail, status: 'offline' });
+    });
+});
 
     // Réception des messages privés
     socket.on('private_message', ({ to, message }) => {
