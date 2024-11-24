@@ -170,3 +170,10 @@ darkModeToggle.addEventListener('click', () => {
     const isDarkModeActive = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDarkModeActive);
 });
+
+// Fonction pour détecter la touche "Entrée" dans le champ de message
+document.getElementById('message').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+    }
