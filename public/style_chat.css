@@ -16,6 +16,7 @@ body {
     overflow: hidden;
 }
 
+/* Conteneur principal avec animation d'apparition */
 .chat-app {
     display: flex;
     width: 90%;
@@ -25,6 +26,19 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    animation: fadeSlideIn 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Animation d'apparition */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* Barre latérale */
@@ -180,7 +194,6 @@ body.dark-mode {
     color: #ddd;
 }
 
-
 /* Animations */
 @keyframes slide-up {
     from {
@@ -191,134 +204,6 @@ body.dark-mode {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* Style général du sélecteur */
-.emoji-picker {
-    position: absolute;
-    bottom: 60px;
-    right: 20px;
-    width: 320px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 10;
-}
-
-/* Style des onglets */
-.emoji-tabs {
-    display: flex;
-    background: #f9f9f9;
-    border-bottom: 1px solid #ddd;
-}
-
-.emoji-tab {
-    flex: 1;
-    padding: 10px 0;
-    text-align: center;
-    cursor: pointer;
-    font-size: 18px;
-    border: none;
-    background: none;
-    transition: background 0.3s;
-}
-
-.emoji-tab:hover {
-    background: #eee;
-}
-
-.emoji-tab.active {
-    background: #fff;
-    border-bottom: 3px solid #3a6f9c;
-}
-
-/* Contenu des émojis */
-.emoji-content {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
-    gap: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.emoji-content button {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.emoji-content button:hover {
-    transform: scale(1.2);
-}
-
-/* Mode sombre */
-.dark-mode .emoji-picker {
-    background: #2c2c2c;
-    border-color: #444;
-}
-
-.dark-mode .emoji-tab {
-    color: #ccc;
-}
-
-.dark-mode .emoji-tab.active {
-    background: #333;
-    border-bottom-color: #5c85c9;
-}
-
-.dark-mode .emoji-content button:hover {
-    background: #444;
-}
-/* Barre de recherche */
-.emoji-search {
-    display: block; /* S'assure qu'elle se comporte comme un bloc pour le centrage */
-    margin: 10px auto; /* Centre automatiquement à l'horizontale */
-    padding: 10px;
-    width: 90%; /* Ajustez selon vos besoins */
-    max-width: 300px; /* Limite la largeur pour des écrans larges */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-
-.emoji-search:focus {
-    border-color: #3a6f9c;
-}
-
-.dark-mode .emoji-search {
-    background: #333;
-    color: #ccc;
-    border-color: #444;
-}
-
-.dark-mode .emoji-search:focus {
-    border-color: #5c85c9;
-}
-
-.message-date {
-    font-size: 0.75em;
-    color: #888;
-    margin-left: 10px;
-    float: right;
-}
-
-.dark-mode .message-date {
-    color: #aaa;
-}
-
-/* Accessibilité */
-button:focus, .emoji-button:focus {
-    outline: none !important;
 }
 
 /* Responsive design */
