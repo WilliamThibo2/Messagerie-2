@@ -153,25 +153,30 @@ body {
     text-decoration: underline;
 }
 
+/* Supprimer le surlignage et la couleur mauve du texte */
+.google-login-button a {
+    text-decoration: none; /* Enlever le surlignage */
+    color: inherit; /* Garder la couleur du texte du parent (le gris ou ce que vous voulez) */
+}
 /* Bouton Google */
 .google-login-button {
     display: flex;
-    align-items: center; /* Centrer verticalement */
-    justify-content: center;  /* Centrer horizontalement */
+    align-items: center;
+    justify-content: center;
     padding: 14px;
-    width: auto;  /* La largeur est maintenant automatique pour s'adapter au contenu */
+    width: auto;
     margin-top: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background: #ffffff;
     font-size: 15px;
     font-weight: bold;
-    color: #555;
+    color: #555; /* Le texte est gris */
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-left: auto; /* Ajouté pour centrer horizontalement */
-    margin-right: auto; /* Ajouté pour centrer horizontalement */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .google-login-button:hover {
@@ -182,7 +187,7 @@ body {
 
 .google-login-button img {
     height: 20px;
-    margin-right: 10px; /* Espacement entre l'icône et le texte */
+    margin-right: 10px;
 }
 
 /* Messages d'erreur */
