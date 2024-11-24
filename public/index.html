@@ -35,8 +35,18 @@
                 <button onclick="sendMessage()" class="send-button">
                     <i class="fas fa-paper-plane"></i>
                 </button>
-                <!-- Sélecteur d'émojis -->
-                <div id="emojiPicker" class="emoji-picker"></div>
+<div id="emojiPicker" class="emoji-picker">
+    <div class="emoji-categories">
+        <button class="emoji-category" data-category="smileys">😊</button>
+        <button class="emoji-category" data-category="animals">🐶</button>
+        <button class="emoji-category" data-category="food">🍎</button>
+        <button class="emoji-category" data-category="activities">⚽</button>
+        <button class="emoji-category" data-category="symbols">❤️</button>
+    </div>
+    <div class="emoji-list">
+        <!-- Les émojis seront générés dynamiquement ici -->
+    </div>
+</div>
             </div>
         </main>
     </div>
