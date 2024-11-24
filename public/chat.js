@@ -55,11 +55,15 @@ function sendMessage() {
 
     if (toEmail && message) {
         socket.emit('private_message', { to: toEmail, message });
-        
+
         const messageElement = document.createElement("li");
         messageElement.classList.add("sent-message");
+
+        // Transforme les liens en cliquables
+        const clickableMessage = makeLinksClickable(message);
+
         const timestamp = new Date().toISOString();
-        messageElement.innerHTML = `<strong>Vous:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span>`;
+        messageElement.innerHTML = `<strong>Vous:</strong> ${clickableMessage} <span class="message-date">${formatDate(timestamp)}</span>`;
         document.getElementById('messages').appendChild(messageElement);
 
         messageElement.style.animation = "fadeIn 0.3s ease-in-out";
@@ -68,6 +72,7 @@ function sendMessage() {
         alert("Veuillez entrer un message valide et un destinataire.");
     }
 }
+
 
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ from, message, timestamp }) => {
