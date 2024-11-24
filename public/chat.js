@@ -154,3 +154,19 @@ document.getElementById('emojiButton').addEventListener('click', () => {
     const emojiPicker = document.getElementById('emojiPicker');
     emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
 });
+
+// Sélecteur du bouton
+const darkModeToggle = document.getElementById('toggleDarkMode');
+
+// Vérifie l'état initial du mode sombre
+const isDarkMode = localStorage.getItem('darkMode') === 'true';
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+}
+
+// Bascule entre le mode sombre et clair
+darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDarkModeActive = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkModeActive);
+});
