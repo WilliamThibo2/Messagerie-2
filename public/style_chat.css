@@ -59,7 +59,7 @@ body {
     font-size: 0.9em;
 }
 
-.theme-toggle, .delete-account, .logout-button {
+.delete-account, .logout-button {
     background: none;
     border: none;
     cursor: pointer;
