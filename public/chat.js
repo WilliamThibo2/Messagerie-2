@@ -69,43 +69,11 @@ function sendMessage() {
     }
 }
 
-   // Fonction pour supprimer un message
-function deleteMessage(messageId) {
-    if (confirm("Voulez-vous vraiment supprimer ce message ?")) {
-    fetch(`/message/${messageId}`, { method: 'DELETE' })
-        .then(response => response.json())
-        .then(data => {
-             if (data.success) {
-                // Supprime le message du DOM
-                const messageElement = document.getElementById(messageId);
-                if (messageElement) {
-                    messageElement.remove();
-                }
-            } else {
-                alert("Erreur lors de la suppression du message : " + data.error);
-            }
-        })
-        .catch(error => {
-            console.error("Erreur lors de la requête de suppression :", error);
-            alert("Erreur lors de la requête de suppression.");
-        });
-
 // Réception des messages privés de la part du serveur
-socket.on('receive_message', ({ _id, from, message, timestamp }) => {
+socket.on('receive_message', ({ from, message, timestamp }) => {
     const messageElement = document.createElement("li");
-    messageElement.id = _id;  // Utilise _id pour l'ID du message
     messageElement.classList.add("received-message");
-
-    // Vérifiez si l'utilisateur connecté est l'expéditeur
-    const isSender = from === socket.user.email; // Assurez-vous que `from` contient l'email ou l'ID de l'expéditeur
-
-    messageElement.innerHTML = `
-        <strong>${from}:</strong> ${message} 
-        <span class="message-date">${formatDate(timestamp)}</span>
-        ${isSender ? `<button class="delete-message-btn" onclick="deleteMessage('${_id}')">
-            <i class="fas fa-trash"></i>
-        </button>` : ''}
-    `;    
+    messageElement.innerHTML = `<strong>${from}:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span>`;
     document.getElementById('messages').appendChild(messageElement);
 
     messageElement.style.animation = "fadeIn 0.3s ease-in-out";
