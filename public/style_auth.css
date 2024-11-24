@@ -53,7 +53,7 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 14px 18px;
+    padding: 14px 18px 14px 40px; /* Ajoute un padding gauche pour l'icône */
     font-size: 16px;
     border: 1px solid #ccd0d5;
     border-radius: 10px;
@@ -62,6 +62,24 @@ body {
     transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
+.input-group input:focus {
+    background: #ffffff;
+    border-color: #1877f2;
+    box-shadow: 0px 4px 10px rgba(24, 119, 242, 0.3);
+    outline: none;
+    transform: scale(1.02);
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #90949c;
+    font-size: 18px;
+}
+
+/* Garder l'effet focus et autres animations */
 .input-group input:focus {
     background: #ffffff;
     border-color: #1877f2;
