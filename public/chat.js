@@ -89,30 +89,45 @@ document.getElementById('signOutButton').addEventListener('click', function() {
     window.location.href = '/login';
 });
 
-// Fonction pour afficher/masquer le sélecteur d'émojis
-document.getElementById('emojiButton').addEventListener('click', () => {
-    const emojiPicker = document.getElementById('emojiPicker');
-    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
-});
+// Catégories d'émojis
+const emojiData = {
+    smileys: ['😀', '😂', '😊', '😍', '😒', '😎', '😭', '😡'],
+    animals: ['🐶', '🐱', '🐭', '🦊', '🐻', '🐼', '🐨', '🐯'],
+    food: ['🍎', '🍔', '🍕', '🍩', '🍪', '🍉', '🍓', '🍗'],
+    activities: ['⚽', '🏀', '🏈', '🎾', '🎨', '🎸', '🎮', '🎳'],
+    symbols: ['❤️', '🔥', '⭐', '✅', '❌', '🔔', '💡', '📌']
+};
 
-// Ajoute des émojis au sélecteur d'émojis
-const emojis = ['😀', '😂', '😊', '😍', '😒', '👍', '❤️', '🔥', '🎉', '🙌'];
 const emojiPicker = document.getElementById('emojiPicker');
-emojis.forEach(emoji => {
-    const emojiButton = document.createElement('button');
-    emojiButton.classList.add('emoji');
-    emojiButton.innerText = emoji;
-    emojiButton.onclick = () => {
-        document.getElementById('message').value += emoji;
-        emojiPicker.style.display = 'none';
-    };
-    emojiPicker.appendChild(emojiButton);
+const emojiList = emojiPicker.querySelector('.emoji-list');
+
+// Fonction pour afficher une catégorie d'émojis
+function loadEmojiCategory(category) {
+    emojiList.innerHTML = ''; // Efface les émojis existants
+    emojiData[category].forEach(emoji => {
+        const emojiButton = document.createElement('button');
+        emojiButton.classList.add('emoji');
+        emojiButton.innerText = emoji;
+        emojiButton.onclick = () => {
+            document.getElementById('message').value += emoji;
+            emojiPicker.style.display = 'none';
+        };
+        emojiList.appendChild(emojiButton);
+    });
+}
+
+// Initialiser avec la première catégorie
+loadEmojiCategory('smileys');
+
+// Gestion des clics sur les onglets de catégories
+document.querySelectorAll('.emoji-category').forEach(button => {
+    button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+        loadEmojiCategory(category);
+    });
 });
 
-// Fonction pour détecter la touche "Entrée" dans le champ de message
-document.getElementById('message').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage();
-    }
+// Toggle pour afficher/masquer le sélecteur d'émojis
+document.getElementById('emojiButton').addEventListener('click', () => {
+    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
 });
