@@ -115,4 +115,6 @@ document.getElementById('message').addEventListener('keypress', function(event) 
         event.preventDefault();
         sendMessage();
     }
+socket.on('user_status', (data) => {
+    console.log(`Utilisateur ${data.email} est maintenant ${data.status}`);
 });
