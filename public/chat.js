@@ -88,85 +88,69 @@ document.getElementById('signOutButton').addEventListener('click', function() {
     });
     window.location.href = '/login';
 });
-// Définir les émojis par catégorie
-// Définir les émojis par catégorie avec un suivi des utilisations
+// Liste complète des émojis par catégorie
 const emojiCategories = {
-    smileys: [
-        { emoji: '😀', usage: 0 }, { emoji: '😁', usage: 0 }, { emoji: '😂', usage: 0 },
-        { emoji: '🤣', usage: 0 }, { emoji: '😃', usage: 0 }, { emoji: '😄', usage: 0 },
-        // Ajoutez d'autres smileys ici...
-    ],
-    animals: [
-        { emoji: '🐶', usage: 0 }, { emoji: '🐱', usage: 0 }, { emoji: '🐭', usage: 0 },
-        // Ajoutez d'autres animaux ici...
-    ],
-    // Ajoutez d'autres catégories...
+    smileys: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😍', '🥰', '😘', '😋', '😎', '😜', '🤩', '😡', '😭', '😱', '😴'],
+    animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🦁', '🐯', '🐦', '🐤', '🦜', '🐍', '🐠', '🐙', '🦈'],
+    food: ['🍎', '🍊', '🍇', '🍉', '🍓', '🍌', '🍍', '🥭', '🍑', '🍒', '🥝', '🍅', '🥑', '🥕', '🥔', '🍠', '🥒', '🥬', '🌽', '🍞', '🥐', '🥖', '🥯', '🥞', '🧀', '🍗', '🍖', '🥩', '🍤', '🍣', '🍕', '🍔', '🍟', '🌭', '🥪', '🌮', '🌯', '🥗', '🍿', '🥤', '🍩', '🍪', '🎂', '🍰'],
+    activities: ['⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🎱', '🏓', '🏸', '🥊', '🥋', '🛹', '⛸️', '🎣', '🎽', '🎿', '🏂', '🏌️‍♂️', '🏄‍♂️', '🏊‍♂️', '🤽‍♂️', '🚴‍♂️', '🚵‍♂️'],
+    objects: ['📱', '💻', '🖥️', '🖨️', '⌨️', '🖱️', '💿', '📷', '📸', '📹', '🎥', '📺', '📻', '⏰', '🔋', '🔌', '💡', '🔦', '🕯️', '🧯', '🔨', '🪓', '🔧', '🪛', '🧰', '🔩', '🪙', '💸', '💳', '📦', '📬'],
+    symbols: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '🔴', '🟠', '🟡', '🟢', '🔵', '🟣', '🟤', '⚪', '⚫', '🔶', '🔷', '🔺', '🔻', '🏳️', '🏴', '🏁', '🚩']
 };
 
-// Fonction pour initialiser le sélecteur d'émojis
-function initializeEmojiPicker() {
-    const emojiContent = document.getElementById('emojiContent');
-    const emojiTabs = document.querySelectorAll('.emoji-tab');
+// Référence des éléments HTML
+const emojiTabs = document.querySelectorAll('.emoji-tab');
+const emojiContent = document.getElementById('emojiContent');
+const emojiSearch = document.getElementById('emojiSearch');
 
-    // Affiche les émojis de la première catégorie par défaut
-    displayEmojis('smileys');
-
-    // Gestion des clics sur les onglets
-    emojiTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const category = tab.getAttribute('data-category');
-            displayEmojis(category);
-        });
+// Fonction pour charger les émojis d'une catégorie
+function loadEmojis(category) {
+    emojiContent.innerHTML = ''; // Réinitialiser le contenu
+    emojiCategories[category].forEach(emoji => {
+        createEmojiButton(emoji);
     });
-
-    // Fonction pour afficher les émojis d'une catégorie
-    function displayEmojis(category) {
-        emojiContent.innerHTML = ''; // Réinitialise le contenu
-
-        // Trie les émojis en fonction de leur usage (les plus utilisés en haut)
-        const sortedEmojis = emojiCategories[category].sort((a, b) => b.usage - a.usage);
-
-        sortedEmojis.forEach(({ emoji }) => {
-            const emojiButton = document.createElement('button');
-            emojiButton.classList.add('emoji-btn');
-            emojiButton.textContent = emoji;
-
-            // Ajoute un effet visuel au survol
-            emojiButton.addEventListener('mouseenter', () => {
-                emojiButton.style.transform = 'scale(1.2)';
-                emojiButton.style.transition = 'transform 0.2s ease';
-            });
-            emojiButton.addEventListener('mouseleave', () => {
-                emojiButton.style.transform = 'scale(1)';
-            });
-
-            // Gestion du clic sur un émoji
-            emojiButton.addEventListener('click', () => {
-                insertEmoji(emoji, category);
-            });
-
-            emojiContent.appendChild(emojiButton);
-        });
-    }
-
-    // Fonction pour insérer un émoji dans la zone de texte et augmenter son compteur d'utilisation
-    function insertEmoji(emoji, category) {
-        const messageInput = document.getElementById('messageInput');
-        messageInput.value += emoji;
-        messageInput.focus();
-
-        // Augmente le compteur d'utilisation de l'émoji
-        const emojiObject = emojiCategories[category].find(e => e.emoji === emoji);
-        if (emojiObject) {
-            emojiObject.usage++;
-        }
-
-        // Réaffiche les émojis pour mettre à jour l'ordre
-        displayEmojis(category);
-    }
 }
 
-// Initialisation du sélecteur d'émojis après chargement de la page
+// Fonction pour créer un bouton d'émoji
+function createEmojiButton(emoji) {
+    const emojiButton = document.createElement('button');
+    emojiButton.innerText = emoji;
+    emojiButton.onclick = () => {
+        document.getElementById('message').value += emoji;
+        document.getElementById('emojiPicker').style.display = 'none';
+    };
+    emojiContent.appendChild(emojiButton);
+}
+
+// Filtrer les émojis en fonction de la recherche
+emojiSearch.addEventListener('input', () => {
+    const query = emojiSearch.value.toLowerCase();
+    emojiContent.innerHTML = ''; // Réinitialiser le contenu
+    for (const category in emojiCategories) {
+        emojiCategories[category]
+            .filter(emoji => emoji.includes(query))
+            .forEach(createEmojiButton);
+    }
+});
+
+// Ajoutez des événements aux onglets
+emojiTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        emojiTabs.forEach(t => t.classList.remove('active')); // Retirer les styles actifs
+        tab.classList.add('active'); // Ajouter le style actif
+        emojiSearch.value = ''; // Réinitialiser la barre de recherche
+        loadEmojis(tab.dataset.category); // Charger les émojis
+    });
+});
+
+// Afficher la première catégorie par défaut
 document.addEventListener('DOMContentLoaded', () => {
-    initializeEmojiPicker();
+    emojiTabs[0].classList.add('active');
+    loadEmojis(emojiTabs[0].dataset.category);
+});
+
+// Bouton pour afficher/masquer le sélecteur
+document.getElementById('emojiButton').addEventListener('click', () => {
+    const emojiPicker = document.getElementById('emojiPicker');
+    emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
 });
