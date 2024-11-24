@@ -191,6 +191,12 @@ document.getElementById('message').addEventListener('keypress', function(event) 
 
 // Fonction pour rendre les liens cliquables
 function makeLinksClickable(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g; // Détecte les URLs commençant par http ou https
-    return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Regex pour capturer les URLs qui commencent par "http://", "https://", ou qui sont juste un nom de domaine
+    const urlRegex = /(\b(?:https?:\/\/|www\.)[^\s]+|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})/g;
+
+    return text.replace(urlRegex, (url) => {
+        // Si l'URL ne commence pas par "http://" ou "https://", ajoute "http://"
+        const fullUrl = /^https?:\/\//.test(url) ? url : 'http://' + url;
+        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+    });
 }
