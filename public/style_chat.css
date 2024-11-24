@@ -189,22 +189,7 @@ body.dark-mode {
     }
 }
 
-/* Style du bouton emoji */
-#emojiButton {
-    background-color: #f0f0f0;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-    outline: none;
-}
-
-#emojiButton:hover {
-    background-color: #e0e0e0;
-}
-
+/* Conteneur du sélecteur d'émojis */
 .emoji-picker {
     position: absolute;
     bottom: 60px;
@@ -214,47 +199,71 @@ body.dark-mode {
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     display: none;
-    max-width: 280px;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 10px;
+    width: 300px;
+    max-height: 300px;
+    overflow: hidden;
     z-index: 10;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.emoji-picker.hidden {
-    opacity: 0;
-    visibility: hidden;
+/* Barre des catégories */
+.emoji-categories {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    padding: 10px;
 }
 
-.emoji-picker.active {
+.emoji-category {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.emoji-category:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.emoji-list {
+    padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 10px;
+    overflow-y: auto;
 }
 
-.emoji-picker span {
+.emoji {
     font-size: 1.5rem;
-    margin: 5px;
-    cursor: pointer;
     padding: 5px;
-    transition: background 0.2s;
-    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: none;
+    background: none;
 }
 
-.emoji-picker span:hover {
-    background: #f0f0f0;
+.emoji:hover {
+    transform: scale(1.2);
 }
 
+/* Mode sombre */
 .dark-mode .emoji-picker {
     background: #333;
     color: #fff;
     border-color: #555;
 }
 
-.dark-mode .emoji-picker span:hover {
-    background: #444;
+.dark-mode .emoji-category:hover {
+    background-color: #444;
 }
+
+.dark-mode .emoji {
+    color: #fff;
+}
+
 
 .message-date {
     font-size: 0.75em;
