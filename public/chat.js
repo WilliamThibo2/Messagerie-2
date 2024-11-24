@@ -73,7 +73,12 @@ function sendMessage() {
 socket.on('receive_message', ({ from, message, timestamp }) => {
     const messageElement = document.createElement("li");
     messageElement.classList.add("received-message");
-    messageElement.innerHTML = `<strong>${from}:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span>`;
+
+    // Sanitize and make links clickable
+    const safeMessage = sanitizeHTML(message);
+    const clickableMessage = makeLinksClickable(safeMessage);
+
+    messageElement.innerHTML = `<strong>${from}:</strong> ${clickableMessage} <span class="message-date">${formatDate(timestamp)}</span>`;
     document.getElementById('messages').appendChild(messageElement);
 
     messageElement.style.animation = "fadeIn 0.3s ease-in-out";
