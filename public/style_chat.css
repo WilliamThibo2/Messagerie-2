@@ -189,81 +189,89 @@ body.dark-mode {
     }
 }
 
-/* Conteneur du sélecteur d'émojis */
+/* Style général du sélecteur */
 .emoji-picker {
     position: absolute;
     bottom: 60px;
     right: 20px;
+    width: 320px;
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
     display: none;
-    width: 300px;
-    max-height: 300px;
+    flex-direction: column;
     overflow: hidden;
     z-index: 10;
 }
 
-/* Barre des catégories */
-.emoji-categories {
+/* Style des onglets */
+.emoji-tabs {
     display: flex;
-    justify-content: space-around;
+    background: #f9f9f9;
     border-bottom: 1px solid #ddd;
-    background-color: #f9f9f9;
-    padding: 10px;
 }
 
-.emoji-category {
-    background: none;
-    border: none;
+.emoji-tab {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
     cursor: pointer;
-    font-size: 1.2em;
-    padding: 5px 10px;
-    transition: background-color 0.3s ease;
+    font-size: 18px;
+    border: none;
+    background: none;
+    transition: background 0.3s;
 }
 
-.emoji-category:hover {
-    background-color: #f0f0f0;
-    border-radius: 5px;
+.emoji-tab:hover {
+    background: #eee;
 }
 
-.emoji-list {
+.emoji-tab.active {
+    background: #fff;
+    border-bottom: 3px solid #3a6f9c;
+}
+
+/* Contenu des émojis */
+.emoji-content {
     padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
     gap: 10px;
+    max-height: 200px;
     overflow-y: auto;
 }
 
-.emoji {
-    font-size: 1.5rem;
-    padding: 5px;
+.emoji-content button {
+    font-size: 24px;
+    background: none;
+    border: none;
     cursor: pointer;
     transition: transform 0.2s;
-    border: none;
-    background: none;
 }
 
-.emoji:hover {
+.emoji-content button:hover {
     transform: scale(1.2);
 }
 
 /* Mode sombre */
 .dark-mode .emoji-picker {
+    background: #2c2c2c;
+    border-color: #444;
+}
+
+.dark-mode .emoji-tab {
+    color: #ccc;
+}
+
+.dark-mode .emoji-tab.active {
     background: #333;
-    color: #fff;
-    border-color: #555;
+    border-bottom-color: #5c85c9;
 }
 
-.dark-mode .emoji-category:hover {
-    background-color: #444;
+.dark-mode .emoji-content button:hover {
+    background: #444;
 }
-
-.dark-mode .emoji {
-    color: #fff;
-}
-
 
 .message-date {
     font-size: 0.75em;
