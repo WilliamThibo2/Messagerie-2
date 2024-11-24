@@ -156,11 +156,13 @@ body.dark-mode {
     background-color: #333;
 }
 
-.dark-mode .sidebar, .dark-mode .chat-container {
+.dark-mode .sidebar, 
+.dark-mode .chat-container {
     background-color: #2c2c2c;
 }
 
-.dark-mode .recipient-input, .dark-mode .message-input textarea {
+.dark-mode .recipient-input, 
+.dark-mode .message-input textarea {
     background-color: #444;
     color: #ddd;
 }
@@ -173,9 +175,11 @@ body.dark-mode {
     background-color: #5c85c9;
 }
 
-.dark-mode .theme-toggle i, .dark-mode .delete-account i {
+.dark-mode .theme-toggle i, 
+.dark-mode .delete-account i {
     color: #ddd;
 }
+
 
 /* Animations */
 @keyframes slide-up {
@@ -325,16 +329,4 @@ button:focus, .emoji-button:focus {
     .chat-container {
         width: 100%;
     }
-}
-.delete-message-btn {
-    background: transparent;
-    border: none;
-    color: red;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px;
-}
-
-.delete-message-btn:hover {
-    color: darkred;
 }
