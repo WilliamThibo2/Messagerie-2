@@ -54,8 +54,7 @@ function sendMessage() {
     const message = document.getElementById('message').value.trim();
 
     if (toEmail && message) {
-        const fromEmail = socket.user.email; // Assurez-vous que l'email de l'utilisateur est disponible
-        socket.emit('private_message', { to: toEmail, message, from: fromEmail }); // Ajoutez l'expéditeur ici
+        socket.emit('private_message', { to: toEmail, message });
         
         const messageElement = document.createElement("li");
         messageElement.classList.add("sent-message");
@@ -70,28 +69,26 @@ function sendMessage() {
     }
 }
 
-// Fonction pour supprimer un message
+   // Fonction pour supprimer un message
 function deleteMessage(messageId) {
     if (confirm("Voulez-vous vraiment supprimer ce message ?")) {
-        fetch(`/message/${messageId}`, { method: 'DELETE' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Supprime le message du DOM
-                    const messageElement = document.getElementById(messageId);
-                    if (messageElement) {
-                        messageElement.remove();
-                    }
-                } else {
-                    alert("Erreur lors de la suppression du message : " + data.error);
+    fetch(`/message/${messageId}`, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+             if (data.success) {
+                // Supprime le message du DOM
+                const messageElement = document.getElementById(messageId);
+                if (messageElement) {
+                    messageElement.remove();
                 }
-            })
-            .catch(error => {
-                console.error("Erreur lors de la requête de suppression :", error);
-                alert("Erreur lors de la requête de suppression.");
-            });
-    }
-}
+            } else {
+                alert("Erreur lors de la suppression du message : " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la requête de suppression :", error);
+            alert("Erreur lors de la requête de suppression.");
+        });
 
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ _id, from, message, timestamp }) => {
@@ -103,7 +100,7 @@ socket.on('receive_message', ({ _id, from, message, timestamp }) => {
     const isSender = from === socket.user.email; // Assurez-vous que `from` contient l'email ou l'ID de l'expéditeur
 
     messageElement.innerHTML = `
-                <strong>${from}:</strong> ${message} 
+        <strong>${from}:</strong> ${message} 
         <span class="message-date">${formatDate(timestamp)}</span>
         ${isSender ? `<button class="delete-message-btn" onclick="deleteMessage('${_id}')">
             <i class="fas fa-trash"></i>
