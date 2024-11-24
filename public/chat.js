@@ -171,9 +171,11 @@ darkModeToggle.addEventListener('click', () => {
     localStorage.setItem('darkMode', isDarkModeActive);
 });
 
-// Fonction pour détecter la touche "Entrée" dans le champ de message
+// Fonction pour détecter la touche "Entrée" dans le champ de message et envoyer le message
 document.getElementById('message').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage();
+    if (event.key === 'Enter' && !event.shiftKey) {  // Vérifie que Enter est pressé sans Shift
+        event.preventDefault();  // Empêche l'ajout d'un saut de ligne
+        sendMessage();  // Appelle la fonction pour envoyer le message
     }
+});
+
