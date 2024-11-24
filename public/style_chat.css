@@ -278,15 +278,18 @@ body.dark-mode {
 }
 /* Barre de recherche */
 .emoji-search {
-    width: calc(100% - 20px);
+    display: block; /* S'assure qu'elle se comporte comme un bloc pour le centrage */
+    margin: 10px auto; /* Centre automatiquement à l'horizontale */
     padding: 10px;
-    margin: 10px auto;
+    width: 90%; /* Ajustez selon vos besoins */
+    max-width: 300px; /* Limite la largeur pour des écrans larges */
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s;
 }
+
 
 .emoji-search:focus {
     border-color: #3a6f9c;
