@@ -72,7 +72,7 @@ function sendMessage() {
    // Fonction pour supprimer un message
 function deleteMessage(messageId) {
     if (confirm("Voulez-vous vraiment supprimer ce message ?")) {
-        fetch(`/messages/delete/${messageId}`, { method: 'DELETE' })
+        fetch(`/message/delete/${messageId}`, { method: 'DELETE' })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
