@@ -233,3 +233,28 @@ body.dark input:focus {
 body.dark .submit-button {
     background: linear-gradient(135deg, #2374e1, #1a5da8);
 }
+
+/* Bouton de changement de thème */
+.toggle-theme {
+    position: fixed; /* Fixe le bouton dans la fenêtre */
+    top: 20px; /* Espacement du haut */
+    right: 20px; /* Espacement de la droite */
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* S'assure que le bouton est au-dessus de tout autre élément */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle-theme:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-theme i {
+    font-size: 18px; /* Ajustez la taille de l'icône selon vos besoins */
+    color: #333; /* Couleur de l'icône */
+}
