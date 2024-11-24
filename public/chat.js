@@ -69,11 +69,33 @@ function sendMessage() {
     }
 }
 
+   // Fonction pour supprimer un message
+    async function deleteMessage(messageId) {
+        try {
+            const response = await fetch(`/api/message/${messageId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (response.ok) {
+                document.getElementById(messageId).remove();
+            } else {
+                const error = await response.json();
+                alert(error.error || "Erreur lors de la suppression du message.");
+            }
+        } catch (error) {
+            console.error("Erreur :", error);
+        }
+    }
+
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ from, message, timestamp }) => {
     const messageElement = document.createElement("li");
+    messageElement.id = _id;
     messageElement.classList.add("received-message");
-    messageElement.innerHTML = `<strong>${from}:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span>`;
+    messageElement.innerHTML = `<strong>${from}:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span><button class="delete-message-btn" onclick="deleteMessage('${_id}')"><i class="fas fa-trash"></i></button>`;    
     document.getElementById('messages').appendChild(messageElement);
 
     messageElement.style.animation = "fadeIn 0.3s ease-in-out";
