@@ -89,17 +89,18 @@ document.getElementById('signOutButton').addEventListener('click', function() {
     window.location.href = '/login';
 });
 // Définir les émojis par catégorie
+// Définir les émojis par catégorie avec un suivi des utilisations
 const emojiCategories = {
-    smileys: ['😀', '😁', '😂', '🤣', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😎', '😍', '😘', '😗', '😙', '😚'],
-    animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦'],
-    food: ['🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐', '🥝', '🍒', '🍍', '🥭', '🍑', '🥑', '🍆', '🌽'],
-    activities: ['⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🏉', '🎱', '🏓', '🏸', '🥋', '⛸️', '🎣', '🤿', '🎽', '🎿', '🏂', '🚴'],
-    objects: ['📱', '💻', '⌨️', '🖥️', '🖨️', '🕹️', '💡', '🔦', '📷', '🎥', '📞', '📟', '📠', '📺', '📻', '⏰', '⏳', '📡'],
-    symbols: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝'],
-    nature: ['🌳', '🌲', '🌵', '🌷', '🌼', '🌻', '🌹', '🌸', '🌺', '🍁', '🍂', '🍃', '🌈', '🌤️', '⛅', '🌦️', '🌧️', '❄️'],
-    vehicles: ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐', '🚚', '🚛', '🚜', '🛴', '🚲', '🛵', '🏍️', '✈️'],
-    flags: ['🇫🇷', '🇺🇸', '🇨🇦', '🇩🇪', '🇮🇹', '🇪🇸', '🇯🇵', '🇰🇷', '🇨🇳', '🇬🇧', '🇮🇳', '🇧🇷', '🇲🇽', '🇷🇺', '🇦🇺', '🇿🇦', '🇳🇬', '🇦🇪'],
-    misc: ['🎉', '🎊', '🎈', '💌', '📩', '📨', '📧', '📪', '📫', '📬', '📭', '📮', '🔖', '🏷️', '🎁', '🎀', '🎗️', '🔗']
+    smileys: [
+        { emoji: '😀', usage: 0 }, { emoji: '😁', usage: 0 }, { emoji: '😂', usage: 0 },
+        { emoji: '🤣', usage: 0 }, { emoji: '😃', usage: 0 }, { emoji: '😄', usage: 0 },
+        // Ajoutez d'autres smileys ici...
+    ],
+    animals: [
+        { emoji: '🐶', usage: 0 }, { emoji: '🐱', usage: 0 }, { emoji: '🐭', usage: 0 },
+        // Ajoutez d'autres animaux ici...
+    ],
+    // Ajoutez d'autres catégories...
 };
 
 // Fonction pour initialiser le sélecteur d'émojis
@@ -121,22 +122,47 @@ function initializeEmojiPicker() {
     // Fonction pour afficher les émojis d'une catégorie
     function displayEmojis(category) {
         emojiContent.innerHTML = ''; // Réinitialise le contenu
-        emojiCategories[category].forEach(emoji => {
+
+        // Trie les émojis en fonction de leur usage (les plus utilisés en haut)
+        const sortedEmojis = emojiCategories[category].sort((a, b) => b.usage - a.usage);
+
+        sortedEmojis.forEach(({ emoji }) => {
             const emojiButton = document.createElement('button');
             emojiButton.classList.add('emoji-btn');
             emojiButton.textContent = emoji;
-            emojiButton.addEventListener('click', () => {
-                insertEmoji(emoji);
+
+            // Ajoute un effet visuel au survol
+            emojiButton.addEventListener('mouseenter', () => {
+                emojiButton.style.transform = 'scale(1.2)';
+                emojiButton.style.transition = 'transform 0.2s ease';
             });
+            emojiButton.addEventListener('mouseleave', () => {
+                emojiButton.style.transform = 'scale(1)';
+            });
+
+            // Gestion du clic sur un émoji
+            emojiButton.addEventListener('click', () => {
+                insertEmoji(emoji, category);
+            });
+
             emojiContent.appendChild(emojiButton);
         });
     }
 
-    // Fonction pour insérer un émoji dans la zone de texte
-    function insertEmoji(emoji) {
+    // Fonction pour insérer un émoji dans la zone de texte et augmenter son compteur d'utilisation
+    function insertEmoji(emoji, category) {
         const messageInput = document.getElementById('messageInput');
         messageInput.value += emoji;
         messageInput.focus();
+
+        // Augmente le compteur d'utilisation de l'émoji
+        const emojiObject = emojiCategories[category].find(e => e.emoji === emoji);
+        if (emojiObject) {
+            emojiObject.usage++;
+        }
+
+        // Réaffiche les émojis pour mettre à jour l'ordre
+        displayEmojis(category);
     }
 }
 
