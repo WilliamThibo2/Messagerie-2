@@ -160,9 +160,8 @@ body {
 }
 /* Bouton Google */
 .google-login-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Utiliser flex pour centrer horizontalement */
+    justify-content: center; /* Centrer horizontalement */
     padding: 14px;
     width: auto;
     margin-top: 20px;
@@ -171,12 +170,12 @@ body {
     background: #ffffff;
     font-size: 15px;
     font-weight: bold;
-    color: #555; /* Le texte est gris */
+    color: #555;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.3s ease;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; /* Centrer horizontalement */
 }
 
 .google-login-button:hover {
