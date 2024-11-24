@@ -156,10 +156,10 @@ body {
 /* Bouton Google */
 .google-login-button {
     display: flex;
-    align-items: center;
-    justify-content: center;  /* Centre horizontalement */
+    align-items: center; /* Centrer verticalement */
+    justify-content: center;  /* Centrer horizontalement */
     padding: 14px;
-    width: 100%;  /* Assurez-vous qu'il occupe toute la largeur de son conteneur */
+    width: auto;  /* La largeur est maintenant automatique pour s'adapter au contenu */
     margin-top: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -170,6 +170,8 @@ body {
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: auto; /* Ajouté pour centrer horizontalement */
+    margin-right: auto; /* Ajouté pour centrer horizontalement */
 }
 
 .google-login-button:hover {
@@ -180,7 +182,7 @@ body {
 
 .google-login-button img {
     height: 20px;
-    margin-right: 10px;
+    margin-right: 10px; /* Espacement entre l'icône et le texte */
 }
 
 /* Messages d'erreur */
