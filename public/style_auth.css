@@ -161,20 +161,25 @@ body {
 /* Bouton Google */
 .google-login-button {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center;  /* Centrer l'icône verticalement */
+    justify-content: center;  /* Centrer le texte horizontalement */
     padding: 14px;
     width: 100%;
     margin-top: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background: #ffffff; /* couleur de fond en mode clair */
+    background: #ffffff;
     font-size: 15px;
     font-weight: bold;
-    color: #555; /* couleur du texte en mode clair */
+    color: #555;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.google-login-button img {
+    height: 20px;  /* Ajuster la taille de l'icône */
+    margin-right: 10px;  /* Espacement entre l'icône et le texte */
 }
 
 .google-login-button:hover {
@@ -183,9 +188,16 @@ body {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2), -4px -4px 12px rgba(255, 255, 255, 0.5);
 }
 
-.google-login-button img {
-    height: 20px;
-    margin-right: 10px;
+/* Styles pour le bouton Google en mode sombre */
+body.dark .google-login-button {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+body.dark .google-login-button:hover {
+    background-color: #444;
+    box-shadow: 4px 4px 12px rgba(255, 255, 255, 0.2), -4px -4px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* Styles pour le bouton Google en mode sombre */
