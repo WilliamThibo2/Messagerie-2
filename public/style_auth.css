@@ -157,9 +157,9 @@ body {
 .google-login-button {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;  /* Centre horizontalement */
     padding: 14px;
-    width: 100%;
+    width: 100%;  /* Assurez-vous qu'il occupe toute la largeur de son conteneur */
     margin-top: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
