@@ -36,24 +36,29 @@
                     <i class="fas fa-paper-plane"></i>
                 </button>
 <!-- Sélecteur d'émojis -->
-<div id="emojiPicker">
-    <div id="emojiTabs">
-        <!-- Onglets pour chaque catégorie d'émojis -->
-        <button class="emoji-tab active" data-category="smileys">😀</button>
-        <button class="emoji-tab" data-category="animals">🐶</button>
-        <!-- Ajoutez plus d'onglets ici -->
+<div id="emojiPicker" class="emoji-picker">
+    <input
+        type="text"
+        id="emojiSearch"
+        placeholder="Rechercher un émoji..."
+        class="emoji-search"
+    />
+    <div class="emoji-tabs">
+        <button class="emoji-tab" data-category="smileys">😊</button>
+        <button class="emoji-tab" data-category="animals">🐻</button>
+        <button class="emoji-tab" data-category="food">🍎</button>
+        <button class="emoji-tab" data-category="activities">⚽</button>
+        <button class="emoji-tab" data-category="objects">💻</button>
+        <button class="emoji-tab" data-category="symbols">❤️</button>
     </div>
-    <div id="emojiContent">
-        <!-- Les émojis de la catégorie sélectionnée s'afficheront ici -->
+        <div class="emoji-content" id="emojiContent"></div>
     </div>
-</div>
             </div>
         </main>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/chat.js"></script>
-    
     <script>
         // Vérification du token côté client
         const token = localStorage.getItem('token');
