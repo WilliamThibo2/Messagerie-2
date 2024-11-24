@@ -91,11 +91,17 @@ function sendMessage() {
     }
 
 // Réception des messages privés de la part du serveur
-socket.on('receive_message', ({ from, message, timestamp }) => {
+socket.on('receive_message', ({ _id, from, message, timestamp }) => {
     const messageElement = document.createElement("li");
-    messageElement.id = _id;
+    messageElement.id = _id;  // Utilise _id pour l'ID du message
     messageElement.classList.add("received-message");
-    messageElement.innerHTML = `<strong>${from}:</strong> ${message} <span class="message-date">${formatDate(timestamp)}</span><button class="delete-message-btn" onclick="deleteMessage('${_id}')"><i class="fas fa-trash"></i></button>`;    
+    messageElement.innerHTML = `
+        <strong>${from}:</strong> ${message} 
+        <span class="message-date">${formatDate(timestamp)}</span>
+        <button class="delete-message-btn" onclick="deleteMessage('${_id}')">
+            <i class="fas fa-trash"></i>
+        </button>
+    `;    
     document.getElementById('messages').appendChild(messageElement);
 
     messageElement.style.animation = "fadeIn 0.3s ease-in-out";
