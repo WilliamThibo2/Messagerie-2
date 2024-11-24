@@ -272,6 +272,57 @@ body.dark-mode {
 .dark-mode .emoji-content button:hover {
     background: #444;
 }
+/* Style des boutons d'émojis */
+.emoji-btn {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    margin: 0.2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Effet au survol */
+.emoji-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.2);
+}
+
+/* Conteneur des émojis (responsive) */
+#emojiContent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Style des onglets */
+.emoji-tab {
+    padding: 0.5rem 1rem;
+    margin: 0.2rem;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.emoji-tab:hover,
+.emoji-tab.active {
+    background-color: #d0d0d0;
+}
+
+/* Mobile-friendly */
+@media (max-width: 600px) {
+    .emoji-btn {
+        font-size: 1.2rem;
+    }
+
+    .emoji-tab {
+        padding: 0.3rem 0.5rem;
+    }
+}
 
 .message-date {
     font-size: 0.75em;
