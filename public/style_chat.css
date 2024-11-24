@@ -318,7 +318,7 @@ body.dark-mode {
 
 /* Accessibilité */
 button:focus, .emoji-button:focus {
-    outline: 0px
+    outline: none !important;
 }
 
 /* Responsive design */
