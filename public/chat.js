@@ -179,3 +179,8 @@ document.getElementById('message').addEventListener('keypress', function(event) 
     }
 });
 
+// Fonction pour rendre les liens cliquables
+function makeLinksClickable(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g; // Détecte les URLs commençant par http ou https
+    return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
