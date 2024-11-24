@@ -156,7 +156,7 @@ document.getElementById('emojiButton').addEventListener('click', () => {
 });
 
 // Sélecteur du bouton
-const darkModeToggle = document.getElementById('toggleDarkMode');
+const darkModeToggle = document.getElementById('themeToggle');
 
 // Vérifie l'état initial du mode sombre
 const isDarkMode = localStorage.getItem('darkMode') === 'true';
