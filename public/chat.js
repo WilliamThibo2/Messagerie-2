@@ -70,25 +70,22 @@ function sendMessage() {
 }
 
    // Fonction pour supprimer un message
-    async function deleteMessage(messageId) {
-        try {
-            const response = await fetch(`/api/message/${messageId}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+function deleteMessage(messageId) {
+    if (confirm("Voulez-vous vraiment supprimer ce message ?")) {
+        fetch(`/messages/delete/${messageId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const messageElement = document.getElementById(messageId);
+                    if (messageElement) {
+                        messageElement.remove();  // Supprime le message du DOM
+                    }
+                } else {
+                    alert("Erreur lors de la suppression du message.");
                 }
             });
-
-            if (response.ok) {
-                document.getElementById(messageId).remove();
-            } else {
-                const error = await response.json();
-                alert(error.error || "Erreur lors de la suppression du message.");
-            }
-        } catch (error) {
-            console.error("Erreur :", error);
-        }
     }
+}
 
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ _id, from, message, timestamp }) => {
