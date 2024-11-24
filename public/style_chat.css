@@ -345,3 +345,30 @@ button:focus, .emoji-button:focus {
         transform: scale(1);
     }
 }
+
+/* Bouton de changement de thème */
+.theme-toggle {
+    position: fixed; /* Fixe le bouton par rapport à la fenêtre */
+    top: 20px; /* Place à 20px du haut de l'écran */
+    right: 20px; /* Place à 20px du côté droit de l'écran */
+    background-color: #fff;
+    border: none;
+    border-radius: 50%; /* Forme circulaire */
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    z-index: 1000; /* Assure que le bouton soit au-dessus des autres éléments */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet au survol du bouton */
+.theme-toggle:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icône dans le bouton */
+.theme-toggle i {
+    font-size: 18px; /* Taille de l'icône */
+    color: #333; /* Couleur de l'icône */
+}
