@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style_auth.css">
-    <script src="/theme.js"></script>
 </head>
 <body>
     <script>
@@ -75,7 +74,23 @@
                 document.getElementById('error-message').innerText = "Erreur réseau.";
             }
         }
-        
+
+// Appliquer le thème stocké au chargement
+if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark');
+    document.querySelector('.theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+}
+
+// Basculer le thème et synchroniser avec localStorage
+const themeToggle = document.querySelector('.theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDarkMode = document.body.classList.contains('dark');
+    localStorage.setItem('darkMode', isDarkMode);
+    themeToggle.innerHTML = isDarkMode ? 
+        '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+});
+
     </script>
 </body>
 </html>
