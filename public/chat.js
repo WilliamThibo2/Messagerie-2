@@ -72,20 +72,23 @@ function sendMessage() {
    // Fonction pour supprimer un message
 function deleteMessage(messageId) {
     if (confirm("Voulez-vous vraiment supprimer ce message ?")) {
-        fetch(`/message/delete/${messageId}`, { method: 'DELETE' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const messageElement = document.getElementById(messageId);
-                    if (messageElement) {
-                        messageElement.remove();  // Supprime le message du DOM
-                    }
-                } else {
-                    alert("Erreur lors de la suppression du message.");
+    fetch(`/message/${messageId}`, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+             if (data.success) {
+                // Supprime le message du DOM
+                const messageElement = document.getElementById(messageId);
+                if (messageElement) {
+                    messageElement.remove();
                 }
-            });
-    }
-}
+            } else {
+                alert("Erreur lors de la suppression du message : " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la requête de suppression :", error);
+            alert("Erreur lors de la requête de suppression.");
+        });
 
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ _id, from, message, timestamp }) => {
