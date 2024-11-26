@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const { register, login } = require('../controllers/authController');
+const { register, login, verifyToken, deleteAccount } = require('../controllers/authController'); // Importation des fonctions nécessaires
 const User = require('../models/User');
 
 const router = express.Router();
