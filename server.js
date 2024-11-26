@@ -18,7 +18,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: 'https://messagerie2.onrender.com',
+        origin: 'https://messagerie-2.onrender.com',
         methods: ['GET', 'POST'],
     },
 });
@@ -27,7 +27,7 @@ connectDB();
 
 // Middleware CORS
 app.use(cors({
-    origin: 'https://messagerie2.onrender.com',
+    origin: 'https://messagerie-2.onrender.com',
     credentials: true,
 }));
 
