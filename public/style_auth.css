@@ -179,7 +179,7 @@ body {
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     text-align: center; /* Centre le texte */
-    gap: 10px; /* Espacement entre l'icône et le texte */
+    gap: 15px; /* Espacement entre l'icône et le texte */
 }
 
 /* Pour l'icône Google */
