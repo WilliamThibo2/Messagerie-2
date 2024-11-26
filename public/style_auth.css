@@ -163,13 +163,13 @@ body {
 }
 /* Bouton Google */
 .google-login-button {
-    display: flex; /* Utiliser Flexbox pour l'alignement */
-    align-items: center; /* Centrer verticalement l'icône et le texte */
-    justify-content: center; /* Centrer horizontalement l'icône et le texte */
+    display: flex; /* Active le mode flexbox */
+    align-items: center; /* Centre verticalement l'icône et le texte */
+    justify-content: center; /* Centre horizontalement l'icône et le texte */
     padding: 14px;
-    width: 100%; /* Prendre toute la largeur disponible */
-    margin-top: 20px;
-    margin: 0 auto; /* Centre horizontalement */
+    width: 100%;
+    max-width: 320px; /* Optionnel : Limite la largeur du bouton */
+    margin: 20px auto; /* Centre horizontalement dans le conteneur */
     border: 1px solid #ddd;
     border-radius: 10px;
     background: #ffffff;
@@ -178,13 +178,15 @@ body {
     color: #555;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
-    text-align: center; /* Centrer le texte à l'intérieur du bouton */
+    text-align: center; /* Centre le texte */
+    gap: 10px; /* Ajoute un espacement entre l'icône et le texte */
 }
 
 /* Pour l'icône Google */
 .google-login-button img {
-    height: 20px; /* Taille de l'icône */
-    margin-right: 10px; /* Espacement entre l'icône et le texte */
+    height: 20px; /* Ajuste la taille de l'icône */
+    width: 20px; /* S'assure qu'elle reste proportionnée */
+    object-fit: contain; /* Empêche la distorsion */
 }
 
 /* Effet au survol */
