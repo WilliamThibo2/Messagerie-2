@@ -1,21 +1,26 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const { register, login, verifyToken, deleteAccount } = require('../controllers/authController'); // Importation des fonctions nécessaires
+const { register, login, verifyToken } = require('../controllers/authController'); // Importation des fonctions nécessaires
 const User = require('../models/User');
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_secret_jwt';
 
-// Routes existantes
+// Routes d'inscription et de connexion
 router.post('/register', register);
 router.post('/login', login);
 
-// Supprime le compte de l'utilisateur
-router.delete('/delete-account', authenticate, async (req, res) => {
+// Supprimer le compte d'un utilisateur (authentifié)
+router.delete('/delete-account', verifyToken, async (req, res) => {
     try {
-        const userId = req.user.id;
-        await User.findByIdAndDelete(userId);
+        const userId = req.user.userId; // ID utilisateur extrait depuis le token
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+
         res.status(200).json({ message: "Compte supprimé avec succès." });
     } catch (error) {
         console.error("Erreur lors de la suppression du compte :", error);
@@ -23,15 +28,16 @@ router.delete('/delete-account', authenticate, async (req, res) => {
     }
 });
 
-
 // Routes Google OAuth
-router.get('/google', 
+router.get(
+    '/google',
     passport.authenticate('google', { 
         scope: ['profile', 'email'] 
     })
 );
 
-router.get('/google/callback', 
+router.get(
+    '/google/callback',
     passport.authenticate('google', { 
         failureRedirect: '/login',
         session: false 
