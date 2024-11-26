@@ -5,7 +5,7 @@ const { register, login, verifyToken } = require('../controllers/authController'
 const User = require('../models/User');
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_secret_jwt';
+const JWT_SECRET = process.env.JWT_SECRET || '3b3d5fc7c8d783b549ce8ec7b8be105cc57c9da2b22e7df619f9a346b7936918426fccf7a615fa0bb52a7d16d8e57abbe88c98e776fbff96e886be8adda2d035';
 
 // Routes d'inscription et de connexion
 router.post('/register', register);
