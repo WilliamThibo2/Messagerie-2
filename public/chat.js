@@ -200,3 +200,32 @@ function makeLinksClickable(text) {
         return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
     });
 }
+
+document.getElementById('deleteAccountButton').addEventListener('click', function () {
+    if (confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+        // Envoi de la requête de suppression au serveur
+        fetch('/delete-account', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${storedToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Compte supprimé avec succès. Vous allez être redirigé.");
+                localStorage.removeItem('token');
+                window.location.href = '/register';
+            } else {
+                return response.json().then(data => {
+                    alert(data.error || "Une erreur s'est produite lors de la suppression du compte.");
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la suppression du compte :", error);
+            alert("Impossible de supprimer le compte pour le moment. Veuillez réessayer plus tard.");
+        });
+    }
+});
+
