@@ -168,26 +168,28 @@ body {
     justify-content: center; /* Centre horizontalement l'icône et le texte */
     padding: 14px;
     width: 100%;
-    max-width: 320px; /* Optionnel : Limite la largeur du bouton */
+    max-width: 320px; /* Limite optionnelle de la largeur */
     margin: 20px auto; /* Centre horizontalement dans le conteneur */
     border: 1px solid #ddd;
     border-radius: 10px;
     background: #ffffff;
-    font-size: 15px;
+    font-size: 15px; /* Taille du texte */
     font-weight: bold;
     color: #555;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.5);
     cursor: pointer;
     text-align: center; /* Centre le texte */
-    gap: 10px; /* Ajoute un espacement entre l'icône et le texte */
+    gap: 10px; /* Espacement entre l'icône et le texte */
 }
 
 /* Pour l'icône Google */
 .google-login-button img {
-    height: 20px; /* Ajuste la taille de l'icône */
-    width: 20px; /* S'assure qu'elle reste proportionnée */
-    object-fit: contain; /* Empêche la distorsion */
+    height: 18px; /* Ajuste la taille de l'icône */
+    width: auto; /* Préserve les proportions */
+    vertical-align: middle; /* Aligne correctement avec le texte */
+    object-fit: contain; /* Empêche toute distorsion */
 }
+
 
 /* Effet au survol */
 .google-login-button:hover {
