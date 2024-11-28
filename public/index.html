@@ -30,8 +30,6 @@
         <main class="chat-container">
             <ul id="messages" class="messages-list"></ul>
             <div class="message-input">
-                <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                <button id="attachImageButton">
                 <button id="emojiButton" class="emoji-button">😊</button>
                 <textarea id="message" placeholder="Écrivez votre message ici..."></textarea>
                 <button onclick="sendMessage()" class="send-button">
@@ -66,6 +64,7 @@
 // Vérification du token côté client
 let token = localStorage.getItem('token');
 if (!token) {
+    window.location.href = '/login';  // Rediriger si le token n'est pas trouvé
 }
 
 // Si besoin, utilisez la variable token ailleurs sans redéclaration
