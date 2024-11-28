@@ -128,8 +128,7 @@ io.on('connection', (socket) => {
             }
         }
     });
-    const multer = require('multer');
-
+    
 // Configuration de Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
