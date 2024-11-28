@@ -73,11 +73,25 @@ function sendMessage() {
     }
 }
 
+let unreadMessages = 0;
 
 // Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ from, message, timestamp }) => {
     const messageElement = document.createElement("li");
     messageElement.classList.add("received-message");
+
+    if (document.visibilityState !== "visible") {
+        unreadMessages++;
+        document.title = `(${unreadMessages}) Messagerie`;
+    }
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        unreadMessages = 0;
+        document.title = "Messagerie";
+    }
+});
 
     // Sanitize and make links clickable
     const safeMessage = sanitizeHTML(message);
