@@ -84,6 +84,11 @@ app.get('/', authController.verifyToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+app.delete('/delete-account', (req, res) => {
+    // Logique pour supprimer un compte
+    res.status(200).json({ success: true, message: 'Compte supprimé' });
+});
+
 // Gestion des connexions des utilisateurs avec Socket.IO
 let connectedUsers = {};
 
