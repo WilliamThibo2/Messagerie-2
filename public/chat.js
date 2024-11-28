@@ -169,8 +169,8 @@ tab.addEventListener('click', () => {
     } else {
         console.warn("Catégorie d'émojis invalide :", category);
     }
+    });
 });
-
 
 // Afficher la première catégorie par défaut
 document.addEventListener('DOMContentLoaded', () => {
