@@ -484,3 +484,42 @@ button:focus, .emoji-button:focus {
     font-size: 18px; /* Taille de l'icône */
     color: #333; /* Couleur de l'icône */
 }
+.color-selector {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.color-selector label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.color-selector input {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.color-selector button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    background-color: #3a6f9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.color-selector button:hover {
+    background-color: #335b7a;
+}
