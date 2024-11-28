@@ -91,9 +91,16 @@ document.addEventListener("visibilitychange", () => {
         unreadMessages = 0;
         document.title = "Messagerie";
     }
-});
-const notificationSound = document.getElementById('notificationSound');
+        // Affiche une notification
+    if (Notification.permission === "granted") {
+        new Notification(`Nouveau message de ${from}`, {
+            body: message,
+            icon: '/path/to/icon.png' // Remplacez par l'icône de votre choix
+        });
+    }
+    const notificationSound = document.getElementById('notificationSound');
     notificationSound.play().catch(error => console.warn("Impossible de jouer le son : ", error));
+});
 
     // Sanitize and make links clickable
     const safeMessage = sanitizeHTML(message);
