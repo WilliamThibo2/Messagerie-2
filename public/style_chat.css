@@ -249,42 +249,53 @@ body.dark-mode {
     transition: color 0.3s ease;
 }
 
+/* Emoji Picker en mode sombre */
 .dark-mode .emoji-picker {
-    background: #2c2c2c;
-    border-color: #444;
+    background: #2c2c2c; /* Fond sombre */
+    border-color: #444; /* Bordure sombre */
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Onglets des catégories */
 .dark-mode .emoji-tab {
-    color: #ccc;
+    color: #ccc; /* Texte clair */
     transition: color 0.3s ease;
 }
 
 .dark-mode .emoji-tab.active {
-    background: #333;
-    border-bottom-color: #5c85c9;
+    background: #333; /* Fond actif */
+    border-bottom-color: #5c85c9; /* Bordure active */
     transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
 }
 
+.dark-mode .emoji-tab:hover {
+    background: #444; /* Fond au survol */
+    transition: background-color 0.3s ease;
+}
+
+/* Boutons des émojis */
 .dark-mode .emoji-content button {
-    color: #ccc;
+    color: #ccc; /* Couleur des émojis */
+    background: none; /* Transparent */
     transition: color 0.3s ease;
 }
 
 .dark-mode .emoji-content button:hover {
-    background: #444;
+    background: #444; /* Fond au survol */
     transition: background-color 0.3s ease;
 }
 
+/* Barre de recherche */
 .dark-mode .emoji-search {
-    background: #333;
-    color: #ccc;
-    border-color: #444;
+    background: #333; /* Fond sombre */
+    color: #ccc; /* Texte clair */
+    border-color: #444; /* Bordure sombre */
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .dark-mode .emoji-search:focus {
-    border-color: #5c85c9;
+    border-color: #5c85c9; /* Bordure active */
+    transition: border-color 0.3s ease;
 }
 
 .dark-mode .message-date {
