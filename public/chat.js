@@ -102,6 +102,11 @@ socket.on('receive_message', ({ from, message, timestamp }) => {
 
     messageElement.style.animation = "fadeIn 0.3s ease-in-out";
 });
+function sanitizeHTML(input) {
+    const tempDiv = document.createElement('div');
+    tempDiv.textContent = input; // Échapper les caractères spéciaux HTML
+    return tempDiv.innerHTML;
+}
 
 // Fonction de déconnexion
 document.getElementById('signOutButton').addEventListener('click', function() {
