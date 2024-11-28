@@ -160,35 +160,138 @@ body {
 body.dark-mode {
     background-color: #1e1e1e;
     color: #ccc;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-mode .chat-app {
     background-color: #333;
+    transition: background-color 0.3s ease;
 }
 
 .dark-mode .sidebar, 
 .dark-mode .chat-container {
     background-color: #2c2c2c;
+    border-color: #444;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .sidebar h2 {
+    color: #5c85c9;
+    transition: color 0.3s ease;
 }
 
 .dark-mode .recipient-input, 
 .dark-mode .message-input textarea {
     background-color: #444;
     color: #ddd;
+    border-color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .delete-account, 
+.dark-mode .logout-button {
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .delete-account:hover, 
+.dark-mode .logout-button:hover {
+    color: #ccc;
+}
+
+.dark-mode .messages-list {
+    background-color: #2c2c2c;
+    transition: background-color 0.3s ease;
 }
 
 .dark-mode .messages-list li {
     background-color: #444;
+    color: #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .sent-message {
+    background-color: #3a6f9c;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .received-message {
+    background-color: #333;
+    color: #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .message-input {
+    background-color: #2c2c2c;
+    border-top: 1px solid #444;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .dark-mode .send-button {
     background-color: #5c85c9;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .send-button:hover {
+    background-color: #497bb3;
+}
+
+.dark-mode .send-button:disabled {
+    background-color: #555;
+    color: #777;
 }
 
 .dark-mode .theme-toggle i, 
 .dark-mode .delete-account i {
     color: #ddd;
+    transition: color 0.3s ease;
 }
+
+.dark-mode .emoji-picker {
+    background: #2c2c2c;
+    border-color: #444;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .emoji-tab {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .emoji-tab.active {
+    background: #333;
+    border-bottom-color: #5c85c9;
+    transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+}
+
+.dark-mode .emoji-content button {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .emoji-content button:hover {
+    background: #444;
+    transition: background-color 0.3s ease;
+}
+
+.dark-mode .emoji-search {
+    background: #333;
+    color: #ccc;
+    border-color: #444;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .emoji-search:focus {
+    border-color: #5c85c9;
+}
+
+.dark-mode .message-date {
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
 
 
 /* Animations */
