@@ -61,34 +61,33 @@
     <script src="/chat.js"></script>
     <script>
         // Vérification du token côté client
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = '/login';  // Rediriger si le token n'est pas trouvé
-        }
+// Vérification du token côté client
+let token = localStorage.getItem('token');
+if (!token) {
+    window.location.href = '/login';  // Rediriger si le token n'est pas trouvé
+}
 
-        // Vérification supplémentaire pour s'assurer que le token est valide
-        fetch('/api/auth/verifyToken', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Token invalide');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data.success) {
-                // Si le token n'est pas valide, rediriger vers la page de connexion
-                window.location.href = '/login';
-            }
-        })
-        .catch(error => {
-            // Si une erreur se produit (token invalide ou autre), rediriger vers la page de connexion
-            window.location.href = '/login';
-        });
+// Si besoin, utilisez la variable token ailleurs sans redéclaration
+fetch('/api/auth/verifyToken', {
+    method: 'POST',
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Token invalide');
+    }
+    return response.json();
+})
+.then(data => {
+    if (!data.success) {
+        window.location.href = '/login';
+    }
+})
+.catch(error => {
+    window.location.href = '/login';
+});
 
         // Déconnexion de l'utilisateur
         document.getElementById("signOutButton").addEventListener("click", function () {
