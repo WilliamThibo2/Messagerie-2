@@ -251,3 +251,12 @@ document.getElementById('deleteAccountButton').addEventListener('click', functio
         });
     }
 });
+
+// Demande de permission pour les notifications
+if ("Notification" in window && Notification.permission !== "granted") {
+    Notification.requestPermission().then(permission => {
+        if (permission !== "granted") {
+            console.warn("Notifications désactivées par l'utilisateur.");
+        }
+    });
+}
