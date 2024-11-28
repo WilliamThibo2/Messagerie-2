@@ -10,7 +10,6 @@ if (token) {
 // Vérifie si l'utilisateur est authentifié
 const storedToken = localStorage.getItem('token');
 if (!storedToken) {
-    window.location.href = '/login';
 } 
 
 // Initialisation de la connexion Socket.IO avec le token
@@ -21,7 +20,6 @@ socket.on('connect_error', (err) => {
     console.error('Erreur de connexion Socket.IO:', err.message);
     alert('Erreur d\'authentification. Veuillez vous reconnecter.');
     localStorage.removeItem('token');
-    window.location.href = '/login';
 });
 
 // Fonction pour formater la date en style "messagerie populaire"
