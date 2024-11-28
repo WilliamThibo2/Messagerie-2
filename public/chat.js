@@ -75,37 +75,28 @@ function sendMessage() {
 
 let unreadMessages = 0;
 
-// Réception des messages privés de la part du serveur
 socket.on('receive_message', ({ from, message, timestamp }) => {
     const messageElement = document.createElement("li");
     messageElement.classList.add("received-message");
 
+    // Affiche une notification si l'utilisateur n'est pas visible
     if (document.visibilityState !== "visible") {
         unreadMessages++;
         document.title = `(${unreadMessages}) Messagerie`;
-    }
-});
 
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        unreadMessages = 0;
-        document.title = "Messagerie";
+        if (Notification.permission === "granted") {
+            new Notification(`Nouveau message de ${from}`, {
+                body: message,
+                icon: '/path/to/icon.png'
+            });
+        }
+        const notificationSound = document.getElementById('notificationSound');
+        notificationSound.play().catch(error => console.warn("Impossible de jouer le son : ", error));
     }
-        // Affiche une notification
-    if (Notification.permission === "granted") {
-        new Notification(`Nouveau message de ${from}`, {
-            body: message,
-            icon: '/path/to/icon.png' // Remplacez par l'icône de votre choix
-        });
-    }
-    const notificationSound = document.getElementById('notificationSound');
-    notificationSound.play().catch(error => console.warn("Impossible de jouer le son : ", error));
-});
 
-    // Sanitize and make links clickable
+    // Ajoute le message reçu dans l'interface
     const safeMessage = sanitizeHTML(message);
     const clickableMessage = makeLinksClickable(safeMessage);
-
     messageElement.innerHTML = `<strong>${from}:</strong> ${clickableMessage} <span class="message-date">${formatDate(timestamp)}</span>`;
     document.getElementById('messages').appendChild(messageElement);
 
