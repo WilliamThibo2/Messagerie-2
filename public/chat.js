@@ -10,6 +10,7 @@ if (token) {
 // Vérifie si l'utilisateur est authentifié
 const storedToken = localStorage.getItem('token');
 if (!storedToken) {
+    window.location.href = '/login';
 } 
 
 // Initialisation de la connexion Socket.IO avec le token
@@ -20,6 +21,7 @@ socket.on('connect_error', (err) => {
     console.error('Erreur de connexion Socket.IO:', err.message);
     alert('Erreur d\'authentification. Veuillez vous reconnecter.');
     localStorage.removeItem('token');
+    window.location.href = '/login';
 });
 
 // Fonction pour formater la date en style "messagerie populaire"
@@ -48,38 +50,26 @@ function formatDate(dateString) {
 
 // Fonction pour envoyer un message privé
 function sendMessage() {
-function sendMessage() {
     const toEmail = document.getElementById('toEmail').value.trim();
     const message = document.getElementById('message').value.trim();
-    const imagePreview = document.getElementById('preview').querySelector('img');
 
-    let messageData = { to: toEmail, message };
-
-    if (imagePreview) {
-        messageData.image = imagePreview.src; // Envoie de l'image sous forme de base64
-    }
-
-    if (toEmail && (message || imagePreview)) {
-        socket.emit('private_message', messageData);
+    if (toEmail && message) {
+        socket.emit('private_message', { to: toEmail, message });
 
         const messageElement = document.createElement("li");
         messageElement.classList.add("sent-message");
 
+        // Transforme les liens en cliquables
         const clickableMessage = makeLinksClickable(message);
 
         const timestamp = new Date().toISOString();
         messageElement.innerHTML = `<strong>Vous:</strong> ${clickableMessage} <span class="message-date">${formatDate(timestamp)}</span>`;
-        
-        if (imagePreview) {
-            messageElement.innerHTML += `<br><img src="${imagePreview.src}" alt="Image envoyée" style="max-width: 200px;">`;
-        }
-
         document.getElementById('messages').appendChild(messageElement);
+
         messageElement.style.animation = "fadeIn 0.3s ease-in-out";
         document.getElementById('message').value = '';
-        document.getElementById('preview').innerHTML = '';  // Réinitialise la prévisualisation
     } else {
-        alert("Veuillez entrer un message valide ou ajouter une image.");
+        alert("Veuillez entrer un message valide et un destinataire.");
     }
 }
 
@@ -126,6 +116,7 @@ document.getElementById('signOutButton').addEventListener('click', function() {
         const name = cookie.split("=")[0].trim();
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
     });
+    window.location.href = '/login';
 });
 // Liste complète des émojis par catégorie
 const emojiCategories = {
@@ -271,18 +262,3 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
-document.getElementById('attachImageButton').addEventListener('click', () => {
-    document.getElementById('imageInput').click();
-});
-
-document.getElementById('imageInput').addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById('preview').innerHTML = `<img src="${e.target.result}" alt="Prévisualisation" style="max-width: 100px;">`;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
