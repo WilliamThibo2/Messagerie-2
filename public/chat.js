@@ -262,3 +262,18 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
+document.getElementById('attachImageButton').addEventListener('click', () => {
+    document.getElementById('imageInput').click();
+});
+
+document.getElementById('imageInput').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('preview').innerHTML = `<img src="${e.target.result}" alt="Prévisualisation" style="max-width: 100px;">`;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
