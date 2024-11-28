@@ -50,26 +50,38 @@ function formatDate(dateString) {
 
 // Fonction pour envoyer un message privé
 function sendMessage() {
+function sendMessage() {
     const toEmail = document.getElementById('toEmail').value.trim();
     const message = document.getElementById('message').value.trim();
+    const imagePreview = document.getElementById('preview').querySelector('img');
 
-    if (toEmail && message) {
-        socket.emit('private_message', { to: toEmail, message });
+    let messageData = { to: toEmail, message };
+
+    if (imagePreview) {
+        messageData.image = imagePreview.src; // Envoie de l'image sous forme de base64
+    }
+
+    if (toEmail && (message || imagePreview)) {
+        socket.emit('private_message', messageData);
 
         const messageElement = document.createElement("li");
         messageElement.classList.add("sent-message");
 
-        // Transforme les liens en cliquables
         const clickableMessage = makeLinksClickable(message);
 
         const timestamp = new Date().toISOString();
         messageElement.innerHTML = `<strong>Vous:</strong> ${clickableMessage} <span class="message-date">${formatDate(timestamp)}</span>`;
-        document.getElementById('messages').appendChild(messageElement);
+        
+        if (imagePreview) {
+            messageElement.innerHTML += `<br><img src="${imagePreview.src}" alt="Image envoyée" style="max-width: 200px;">`;
+        }
 
+        document.getElementById('messages').appendChild(messageElement);
         messageElement.style.animation = "fadeIn 0.3s ease-in-out";
         document.getElementById('message').value = '';
+        document.getElementById('preview').innerHTML = '';  // Réinitialise la prévisualisation
     } else {
-        alert("Veuillez entrer un message valide et un destinataire.");
+        alert("Veuillez entrer un message valide ou ajouter une image.");
     }
 }
 
