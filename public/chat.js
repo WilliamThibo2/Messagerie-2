@@ -243,3 +243,8 @@ document.getElementById('deleteAccountButton').addEventListener('click', functio
     }
 });
 
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        // L'utilisateur est actif, désactivez les notifications popup si nécessaire
+    }
+});
