@@ -261,11 +261,3 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
-document.getElementById('apply-colors').addEventListener('click', () => {
-    const primaryColor = document.getElementById('primary-color').value;
-    const secondaryColor = document.getElementById('secondary-color').value;
-
-    // Appliquer les couleurs dynamiquement
-    document.documentElement.style.setProperty('--primary-color', primaryColor);
-    document.documentElement.style.setProperty('--secondary-color', secondaryColor);
-});
