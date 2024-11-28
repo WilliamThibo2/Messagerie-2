@@ -523,3 +523,27 @@ button:focus, .emoji-button:focus {
 .color-selector button:hover {
     background-color: #335b7a;
 }
+
+:root {
+    --primary-color: #3a6f9c; /* Valeur par défaut */
+    --secondary-color: #2c2c2c;
+}
+
+/* Exemple d'utilisation */
+body {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.send-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.send-button:hover {
+    background-color: lighten(var(--primary-color), 10%);
+}
+
+.sidebar {
+    background-color: var(--secondary-color);
+}
