@@ -9,6 +9,7 @@ const authController = require('./controllers/authController');
 const cors = require('cors');
 const MongoStore = require('connect-mongo');
 const path = require('path');
+const multer = require('multer');
 const passport = require('passport');
 
 require('dotenv').config();
@@ -127,6 +128,38 @@ io.on('connection', (socket) => {
             }
         }
     });
+    const multer = require('multer');
+
+// Configuration de Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'public/uploads/')); // Stocker les fichiers dans "public/uploads/"
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // Nom unique pour éviter les collisions
+    }
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limite : 5 Mo
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Seules les images sont autorisées.'));
+        }
+    }
+});
+
+// Route pour uploader une image
+app.post('/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('Aucun fichier téléchargé.');
+    }
+    res.json({ url: `/uploads/${req.file.filename}` });
+});
+
 });
 
 server.listen(process.env.PORT || 3000, () => {
