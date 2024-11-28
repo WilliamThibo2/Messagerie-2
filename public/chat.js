@@ -159,13 +159,18 @@ emojiSearch.addEventListener('input', () => {
 
 // Ajoutez des événements aux onglets
 emojiTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        emojiTabs.forEach(t => t.classList.remove('active')); // Retirer les styles actifs
-        tab.classList.add('active'); // Ajouter le style actif
-        emojiSearch.value = ''; // Réinitialiser la barre de recherche
-        loadEmojis(tab.dataset.category); // Charger les émojis
-    });
+tab.addEventListener('click', () => {
+    const category = tab.dataset.category;
+    if (emojiCategories[category]) {
+        emojiTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        emojiSearch.value = '';
+        loadEmojis(category);
+    } else {
+        console.warn("Catégorie d'émojis invalide :", category);
+    }
 });
+
 
 // Afficher la première catégorie par défaut
 document.addEventListener('DOMContentLoaded', () => {
