@@ -87,7 +87,7 @@ socket.on('receive_message', ({ from, message, timestamp }) => {
         if (Notification.permission === "granted") {
             new Notification(`Nouveau message de ${from}`, {
                 body: message,
-                icon: '/path/to/icon.png'
+                icon: '/assets/icon/notif-messagerie.png'
             });
         }
         const notificationSound = document.getElementById('notificationSound');
