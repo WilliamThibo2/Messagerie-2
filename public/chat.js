@@ -92,6 +92,8 @@ document.addEventListener("visibilitychange", () => {
         document.title = "Messagerie";
     }
 });
+const notificationSound = document.getElementById('notificationSound');
+    notificationSound.play().catch(error => console.warn("Impossible de jouer le son : ", error));
 
     // Sanitize and make links clickable
     const safeMessage = sanitizeHTML(message);
@@ -240,11 +242,5 @@ document.getElementById('deleteAccountButton').addEventListener('click', functio
             console.error("Erreur lors de la suppression du compte :", error);
             alert("Impossible de supprimer le compte pour le moment. Veuillez réessayer plus tard.");
         });
-    }
-});
-
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        // L'utilisateur est actif, désactivez les notifications popup si nécessaire
     }
 });
