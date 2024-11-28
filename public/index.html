@@ -30,6 +30,8 @@
         <main class="chat-container">
             <ul id="messages" class="messages-list"></ul>
             <div class="message-input">
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <button id="attachImageButton">
                 <button id="emojiButton" class="emoji-button">😊</button>
                 <textarea id="message" placeholder="Écrivez votre message ici..."></textarea>
                 <button onclick="sendMessage()" class="send-button">
