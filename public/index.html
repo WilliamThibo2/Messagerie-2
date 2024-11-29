@@ -37,29 +37,7 @@
                     <i class="fas fa-paper-plane"></i>
                 </button>
                 
-        <!-- Quiz -->
-        <div id="quiz-container" style="display: none;">
-            <h2 id="quiz-question"></h2>
-            <div id="quiz-options"></div>
-            <button id="submit-answer" onclick="submitVote()">Vote</button>
-        </div>
-
-        <!-- Résultats -->
-        <div id="quiz-results" style="display: none;">
-            <h2>Résultats</h2>
-            <pre id="results-container"></pre>
-        </div>
-                
-        <div id="create-quiz-form">
-    <h2>Créer un Quiz</h2>
-    <input type="text" id="quiz-question-input" placeholder="Entrez la question">
-    <div id="quiz-options-inputs">
-        <input type="text" class="quiz-option" placeholder="Option 1">
-        <input type="text" class="quiz-option" placeholder="Option 2">
-    </div>
-    <button onclick="addOption()">Ajouter une option</button>
-    <button onclick="createQuiz()">Créer le Quiz</button>
-</div>
+<button onclick="openQuizInterface()">Créer un Quiz</button>
                 
 <!-- Sélecteur d'émojis -->
 <div id="emojiPicker" class="emoji-picker">
