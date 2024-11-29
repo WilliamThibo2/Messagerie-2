@@ -272,17 +272,3 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
-
-// Gestion de l'indicateur de saisie dans le chat
-socket.on('typing', (data) => {
-    const typingIndicator = document.getElementById('typing-indicator');
-    const typingUser = document.getElementById('typing-user');
-
-    if (data.typing) {
-        typingIndicator.style.display = 'block';
-        typingUser.textContent = `${data.user} est en train d'écrire...`;
-    } else {
-        typingIndicator.style.display = 'none';
-    }
-});
-
