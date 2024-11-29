@@ -49,13 +49,23 @@ function formatDate(dateString) {
 }
 
 // Fonction pour envoyer un message privé
+// Fonction pour envoyer un message privé à plusieurs destinataires
 function sendMessage() {
     const toEmail = document.getElementById('toEmail').value.trim();
     const message = document.getElementById('message').value.trim();
 
     if (toEmail && message) {
-        socket.emit('private_message', { to: toEmail, message });
+        // Convertit la chaîne d'e-mails séparés par des virgules en un tableau
+        const recipients = toEmail.split(',').map(email => email.trim()).filter(email => email);
 
+        if (recipients.length === 0) {
+            alert("Veuillez entrer au moins un destinataire valide.");
+            return;
+        }
+
+        socket.emit('private_message', { to: recipients, message });
+
+        // Ajouter le message envoyé dans l'interface
         const messageElement = document.createElement("li");
         messageElement.classList.add("sent-message");
 
@@ -69,7 +79,7 @@ function sendMessage() {
         messageElement.style.animation = "fadeIn 0.3s ease-in-out";
         document.getElementById('message').value = '';
     } else {
-        alert("Veuillez entrer un message valide et un destinataire.");
+        alert("Veuillez entrer un message valide et au moins un destinataire.");
     }
 }
 
