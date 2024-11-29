@@ -69,6 +69,7 @@ io.on('connection', (socket) => {
             io.emit('quiz-results', { quizId, responses: quizzes[quizId].responses });
         }
     });
+}); // <--- FIN du io.on('connection', ...)
     
 // Middleware pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
