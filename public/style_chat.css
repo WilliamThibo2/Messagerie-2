@@ -81,51 +81,32 @@ body {
     background-color: #fff;
 }
 
-/* Messages envoyés et reçus */
+.messages-list {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+
 .messages-list li {
     margin-bottom: 15px;
     padding: 10px 15px;
     border-radius: 10px;
+    background-color: #f0f2f5;
     position: relative;
     animation: slide-up 0.4s ease forwards;
     word-wrap: break-word;
-    max-width: 60%; /* Limite la largeur des messages */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile */
-    display: inline-block; /* Assure une largeur minimale adaptée au contenu */
 }
 
-/* Messages envoyés */
 .sent-message {
-    background-color: #d0e6f6; /* Couleur bleutée */
-    color: #0b5394; /* Texte bleu foncé */
-    border: 1px solid #94c3e3; /* Bordure bleu clair */
-    align-self: flex-end; /* Aligné à droite */
-    border-radius: 10px 0 10px 10px; /* Coins arrondis spécifiques */
-    text-align: left; /* Texte aligné à gauche */
-    margin-left: auto; /* Pousse le message vers la droite */
+    background-color: #d0e6f6;
+    align-self: flex-end;
 }
 
-/* Messages reçus */
 .received-message {
-    background-color: #f5f5f5; /* Couleur gris clair */
-    color: #333; /* Texte noir/gris */
-    border: 1px solid #ddd; /* Bordure légère */
-    align-self: flex-start; /* Aligné à gauche */
-    border-radius: 0 10px 10px 10px; /* Coins arrondis spécifiques */
-    text-align: left; /* Texte aligné à gauche */
-    margin-right: auto; /* Pousse le message vers la gauche */
-}
-
-/* Transition fluide pour les couleurs et les bordures */
-.sent-message,
-.received-message {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Alignement spécifique dans la liste des messages */
-.messages-list {
-    display: flex;
-    flex-direction: column;
+    background-color: #f5f5f5;
+    align-self: flex-start;
 }
 
 .message-input {
@@ -229,6 +210,18 @@ body.dark-mode {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.dark-mode .sent-message {
+    background-color: #3a6f9c;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .received-message {
+    background-color: #333;
+    color: #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .dark-mode .message-input {
     background-color: #2c2c2c;
     border-top: 1px solid #444;
@@ -309,20 +302,6 @@ body.dark-mode {
 
 .dark-mode .emoji-content button {
     background: #333;
-}
-
-/* Mode sombre - Messages envoyés */
-.dark-mode .sent-message {
-    background-color: #3a6f9c; /* Couleur bleu foncé */
-    color: #fff; /* Texte blanc */
-    border-color: #335b7a; /* Bordure bleu foncé */
-}
-
-/* Mode sombre - Messages reçus */
-.dark-mode .received-message {
-    background-color: #444; /* Couleur gris foncé */
-    color: #ddd; /* Texte gris clair */
-    border-color: #555; /* Bordure gris foncé */
 }
 
 .dark-mode .message-date {
