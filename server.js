@@ -34,6 +34,35 @@ app.use(cors({
 // Middleware pour les requêtes JSON
 app.use(express.json());
 
+// Stockage des quiz et sondages actifs
+const quizzes = {}; // { quizId: { question, options, responses } }
+
+// Route pour créer un quiz ou sondage
+app.post('/create-quiz', (req, res) => {
+    const { question, options } = req.body;
+    const quizId = `quiz_${Date.now()}`;
+    quizzes[quizId] = { question, options, responses: {} };
+    res.status(201).json({ quizId });
+});
+
+// Gestion des WebSocket pour diffuser et voter
+io.on('connection', (socket) => {
+    console.log('Un utilisateur est connecté');
+
+    // Diffuser un nouveau quiz
+    socket.on('send-quiz', (quizData) => {
+        const { quizId, question, options } = quizData;
+        io.emit('new-quiz', { quizId, question, options });
+    });
+
+    // Récolter les votes
+    socket.on('vote', ({ quizId, option }) => {
+        if (quizzes[quizId]) {
+            quizzes[quizId].responses[option] = (quizzes[quizId].responses[option] || 0) + 1;
+            io.emit('quiz-results', { quizId, responses: quizzes[quizId].responses });
+        }
+    });
+    
 // Middleware pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
