@@ -29,3 +29,29 @@ function openQuizInterface() {
         }
     });
 }
+socket.on('receive_message', (data) => {
+    if (data.messageType === 'quiz') {
+        const { question, options } = data.content;
+
+        // Affiche le quiz dans l'interface de chat
+        const chatContainer = document.getElementById('chat-container');
+        const quizElement = document.createElement('div');
+        quizElement.innerHTML = `
+            <div style="background: #f9f9f9; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                <strong>${data.from} a envoyé un quiz :</strong>
+                <p>${question}</p>
+                ${options.map((opt, index) => `
+                    <button onclick="voteQuiz('${question}', '${opt}')">${opt}</button>
+                `).join('')}
+            </div>
+        `;
+        chatContainer.appendChild(quizElement);
+    }
+});
+
+// Fonction pour voter
+function voteQuiz(question, option) {
+    socket.emit('vote', { question, option });
+    alert(`Vous avez voté pour : ${option}`);
+}
+
