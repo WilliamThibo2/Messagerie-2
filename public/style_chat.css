@@ -484,12 +484,3 @@ button:focus, .emoji-button:focus {
     font-size: 18px; /* Taille de l'icône */
     color: #333; /* Couleur de l'icône */
 }
-#quiz-container, #quiz-results {
-    margin: 20px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    text-align: center;
-}
