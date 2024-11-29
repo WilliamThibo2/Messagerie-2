@@ -262,3 +262,8 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
+socket.on('quiz-expired', ({ quizId }) => {
+    alert(`Le quiz avec ID ${quizId} a expiré.`);
+    document.getElementById('quiz-container').style.display = 'none';
+});
+
