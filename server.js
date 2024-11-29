@@ -52,30 +52,6 @@ app.post('/create-quiz', (req, res) => {
     res.status(201).json({ quizId });
 });
 
-// Gestion des WebSocket pour diffuser et voter
- // Réception du quiz et envoi à tous les utilisateurs
-    socket.on('send-quiz', (quizData) => {
-        const { question, options } = quizData;
-
-        // Diffuse le quiz sous forme de message
-        io.emit('receive_message', {
-            from: socket.user.email,
-            messageType: 'quiz',
-            content: { question, options },
-        });
-
-        console.log(`Quiz envoyé par ${socket.user.email}: ${question}`);
-    });
-
-    // Réception des votes
-    socket.on('vote', ({ question, option }) => {
-        console.log(`Vote reçu : ${question} -> ${option}`);
-        
-        // Logic to store and process the votes
-        io.emit('quiz-results', { question, option });
-    });
-});
-
 // Middleware pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
