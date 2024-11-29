@@ -81,14 +81,6 @@ body {
     background-color: #fff;
 }
 
-.messages-list {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    list-style: none;
-    scroll-behavior: smooth;
-}
-
 /* Messages envoyés et reçus */
 .messages-list li {
     margin-bottom: 15px;
@@ -99,6 +91,7 @@ body {
     word-wrap: break-word;
     max-width: 60%; /* Limite la largeur des messages */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    display: inline-block; /* Assure une largeur minimale adaptée au contenu */
 }
 
 /* Messages envoyés */
@@ -108,7 +101,8 @@ body {
     border: 1px solid #94c3e3; /* Bordure bleu clair */
     align-self: flex-end; /* Aligné à droite */
     border-radius: 10px 0 10px 10px; /* Coins arrondis spécifiques */
-    text-align: right; /* Texte aligné à droite */
+    text-align: left; /* Texte aligné à gauche */
+    margin-left: auto; /* Pousse le message vers la droite */
 }
 
 /* Messages reçus */
@@ -119,12 +113,19 @@ body {
     align-self: flex-start; /* Aligné à gauche */
     border-radius: 0 10px 10px 10px; /* Coins arrondis spécifiques */
     text-align: left; /* Texte aligné à gauche */
+    margin-right: auto; /* Pousse le message vers la gauche */
 }
 
 /* Transition fluide pour les couleurs et les bordures */
 .sent-message,
 .received-message {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Alignement spécifique dans la liste des messages */
+.messages-list {
+    display: flex;
+    flex-direction: column;
 }
 
 .message-input {
