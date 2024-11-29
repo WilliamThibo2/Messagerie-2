@@ -2,37 +2,74 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 
+// Envoyer un message (privé ou de groupe)
 exports.sendMessage = async (req, res) => {
-    const { to, content } = req.body;
+    const { participants, to, content } = req.body; // "participants" pour groupe, "to" pour privé
     const from = req.userId;
 
-    if (!to || !content) {
-        return res.status(400).json({ error: "Destinataire et contenu requis." });
+    if ((!participants && !to) || !content) {
+        return res.status(400).json({ error: "Participants ou destinataire et contenu requis." });
     }
 
     try {
-        const recipient = await User.findOne({ email: to });
-        if (!recipient) {
-            return res.status(404).json({ error: "Destinataire introuvable." });
+        let conversation;
+
+        // Si c'est une conversation de groupe
+        if (participants) {
+            if (participants.length < 2) {
+                return res.status(400).json({ error: "Une conversation de groupe nécessite au moins deux participants." });
+            }
+
+            // Vérifiez si tous les participants existent
+            const users = await User.find({ _id: { $in: participants } });
+            if (users.length !== participants.length) {
+                return res.status(404).json({ error: "Un ou plusieurs utilisateurs n'existent pas." });
+            }
+
+            // Trouvez ou créez une conversation de groupe
+            conversation = await Conversation.findOne({
+                participants: { $all: participants, $size: participants.length },
+                type: 'group',
+            });
+
+            if (!conversation) {
+                conversation = new Conversation({ participants, type: 'group' });
+                await conversation.save();
+            }
         }
 
-        let conversation = await Conversation.findOne({
-            participants: { $all: [from, recipient._id] }
-        });
+        // Si c'est une conversation privée
+        if (to) {
+            const recipient = await User.findOne({ email: to });
+            if (!recipient) {
+                return res.status(404).json({ error: "Destinataire introuvable." });
+            }
 
-        if (!conversation) {
-            conversation = new Conversation({ participants: [from, recipient._id], type: 'private' });
-            await conversation.save();
+            // Trouvez ou créez une conversation privée
+            conversation = await Conversation.findOne({
+                participants: { $all: [from, recipient._id] },
+                type: 'private',
+            });
+
+            if (!conversation) {
+                conversation = new Conversation({ participants: [from, recipient._id], type: 'private' });
+                await conversation.save();
+            }
         }
 
+        // Créez et enregistrez le message
         const message = new Message({
             from,
-            to: recipient._id,
+            to: to || null,
             conversation: conversation._id,
             content,
-            type: 'private'
+            type: conversation.type,
         });
         await message.save();
+
+        // Mettez à jour le dernier message dans la conversation
+        conversation.lastMessage = message._id;
+        await conversation.save();
 
         res.status(201).json({ message: "Message envoyé avec succès", data: message });
     } catch (error) {
@@ -41,22 +78,14 @@ exports.sendMessage = async (req, res) => {
     }
 };
 
+// Récupérer les messages d'une conversation
 exports.getMessages = async (req, res) => {
-    const { userId } = req;
-    const { toEmail } = req.params;
+    const { conversationId } = req.params;
 
     try {
-        const recipient = await User.findOne({ email: toEmail });
-        if (!recipient) {
-            return res.status(404).json({ error: "Destinataire introuvable." });
-        }
-
-        const conversation = await Conversation.findOne({
-            participants: { $all: [userId, recipient._id] }
-        });
-
+        const conversation = await Conversation.findById(conversationId);
         if (!conversation) {
-            return res.status(404).json({ error: "Aucune conversation trouvée avec ce destinataire." });
+            return res.status(404).json({ error: "Conversation introuvable." });
         }
 
         const messages = await Message.find({ conversation: conversation._id })
@@ -65,11 +94,12 @@ exports.getMessages = async (req, res) => {
 
         res.json({ conversationId: conversation._id, messages });
     } catch (error) {
-        console.error(error);
+        console.error("Erreur lors de la récupération des messages :", error);
         res.status(500).json({ error: "Erreur lors de la récupération des messages." });
     }
 };
 
+// Supprimer un message
 exports.deleteMessage = async (req, res) => {
     const { messageId } = req.params;
     const { userId } = req;
