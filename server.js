@@ -23,19 +23,52 @@ const io = socketIo(server, {
     },
 });
 
-// Lorsque quelqu'un se connecte
+// Lorsqu'un utilisateur est connecté
 io.on('connection', (socket) => {
-    console.log('Un utilisateur est connecté');
+    console.log('Nouvelle connexion:', socket.id);
 
-    // Écouter l'état "en train d'écrire"
-    socket.on('typing', (data) => {
-        // Diffuser cet état à tous les autres utilisateurs
-        socket.broadcast.emit('typing', data);
+    // Ajouter l'utilisateur à connectedUsers après la connexion
+    const userEmail = socket.user.email;
+    connectedUsers[userEmail] = socket.id;
+    console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
+
+    // Réception des messages privés
+    socket.on('private_message', ({ to, message }) => {
+        if (connectedUsers[userEmail]) {
+            to.forEach(recipient => {
+                const recipientSocket = connectedUsers[recipient.trim()];
+
+                if (recipientSocket) {
+                    io.to(recipientSocket).emit('receive_message', {
+                        from: userEmail,
+                        message,
+                        timestamp: new Date().toISOString(),
+                    });
+                    console.log(`Message de ${userEmail} à ${recipient}: ${message}`);
+                } else {
+                    console.log(`Destinataire ${recipient} non trouvé`);
+                }
+            });
+        } else {
+            console.log("Utilisateur non authentifié");
+        }
     });
 
-    // Lorsque quelqu'un se déconnecte
+    // Lorsque quelqu'un tape un message, émettre l'événement 'typing'
+    socket.on('typing', (data) => {
+        // Diffuser l'événement aux autres utilisateurs
+        socket.broadcast.emit('typing', { user: data.user, typing: data.typing });
+    });
+
+    // Lorsque l'utilisateur se déconnecte
     socket.on('disconnect', () => {
-        console.log('Un utilisateur s\'est déconnecté');
+        console.log('Utilisateur déconnecté:', socket.id);
+        // Supprimer l'utilisateur de la liste des utilisateurs connectés
+        for (const email in connectedUsers) {
+            if (connectedUsers[email] === socket.id) {
+                delete connectedUsers[email];
+            }
+        }
     });
 });
 
