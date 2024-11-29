@@ -34,24 +34,6 @@ app.use(cors({
 // Middleware pour les requêtes JSON
 app.use(express.json());
 
-// Stockage des quiz et sondages actifs
-const quizzes = {}; // { quizId: { question, options, responses } }
-
-// Route pour créer un quiz ou sondage
-app.post('/create-quiz', (req, res) => {
-    const { question, options } = req.body;
-    const quizId = `quiz_${Date.now()}`;
-    quizzes[quizId] = { question, options, responses: {} };
-
-    // Supprime le quiz après 5 minutes (300 000 ms)
-    setTimeout(() => {
-        delete quizzes[quizId];
-        io.emit('quiz-expired', { quizId });
-    }, 300000);
-
-    res.status(201).json({ quizId });
-});
-
 // Middleware pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
