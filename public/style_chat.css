@@ -291,7 +291,16 @@ body.dark-mode {
 .dark-mode .emoji-search:focus {
     border-color: #5c85c9;
 }
+
 .dark-mode .emoji-tab:hover {
+    background: #333;
+}
+
+.dark-mode .emoji-content {
+    background: #333;
+}
+
+.dark-mode .emoji-content button {
     background: #333;
 }
 
