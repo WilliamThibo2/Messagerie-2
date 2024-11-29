@@ -511,3 +511,11 @@ button:focus, .emoji-button:focus {
     font-size: 18px; /* Taille de l'icône */
     color: #333; /* Couleur de l'icône */
 }
+
+.typing-indicator {
+    font-size: 0.9em;
+    color: #888;
+    margin: 5px 0;
+    padding-left: 10px;
+    font-style: italic;
+}
