@@ -35,6 +35,20 @@
                 <button onclick="sendMessage()" class="send-button">
                     <i class="fas fa-paper-plane"></i>
                 </button>
+                
+        <!-- Quiz -->
+        <div id="quiz-container" style="display: none;">
+            <h2 id="quiz-question"></h2>
+            <div id="quiz-options"></div>
+            <button id="submit-answer" onclick="submitVote()">Vote</button>
+        </div>
+
+        <!-- Résultats -->
+        <div id="quiz-results" style="display: none;">
+            <h2>Résultats</h2>
+            <pre id="results-container"></pre>
+        </div>
+                
 <!-- Sélecteur d'émojis -->
 <div id="emojiPicker" class="emoji-picker">
         <input
