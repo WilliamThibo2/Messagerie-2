@@ -262,28 +262,3 @@ if ("Notification" in window && Notification.permission !== "granted") {
         }
     });
 }
-// Ecoute des messages du serveur, y compris les sondages
-socket.on('receive_message', (data) => {
-    if (data.messageType === 'quiz') {
-        displayQuiz(data.content);
-    } else {
-        displayMessage(data);
-    }
-});
-
-// Fonction pour afficher le quiz
-function displayQuiz(quizData) {
-    const messageContainer = document.getElementById('messageContainer'); // Exemple de conteneur de message
-
-    const quizMessage = document.createElement('div');
-    quizMessage.classList.add('quiz-message');
-    quizMessage.innerHTML = `
-        <p><strong>Quiz:</strong> ${quizData.question}</p>
-        <ul>
-            ${quizData.options.map(option => `<li><button class="vote-option" data-option="${option}">${option}</button></li>`).join('')}
-        </ul>
-    `;
-    
-    messageContainer.appendChild(quizMessage);
-    console.log('Sondage reçu:', quizData.question);
-}
