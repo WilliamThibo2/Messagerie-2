@@ -69,7 +69,12 @@ socket.on('send-quiz', (quizData) => {
     console.log(`Quiz envoyé par ${socket.user.email}: ${question}`);
 });
 }); // <--- FIN du io.on('connection', ...)
-    
+
+socket.on('vote', ({ question, option }) => {
+    console.log(`Vote reçu : ${question} -> ${option}`);
+    io.emit('quiz-results', { question, option });
+});
+
 // Middleware pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
