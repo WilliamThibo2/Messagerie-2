@@ -23,55 +23,6 @@ const io = socketIo(server, {
     },
 });
 
-// Lorsqu'un utilisateur est connecté
-io.on('connection', (socket) => {
-    console.log('Nouvelle connexion:', socket.id);
-
-    // Ajouter l'utilisateur à connectedUsers après la connexion
-    const userEmail = socket.user.email;
-    connectedUsers[userEmail] = socket.id;
-    console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
-
-    // Réception des messages privés
-    socket.on('private_message', ({ to, message }) => {
-        if (connectedUsers[userEmail]) {
-            to.forEach(recipient => {
-                const recipientSocket = connectedUsers[recipient.trim()];
-
-                if (recipientSocket) {
-                    io.to(recipientSocket).emit('receive_message', {
-                        from: userEmail,
-                        message,
-                        timestamp: new Date().toISOString(),
-                    });
-                    console.log(`Message de ${userEmail} à ${recipient}: ${message}`);
-                } else {
-                    console.log(`Destinataire ${recipient} non trouvé`);
-                }
-            });
-        } else {
-            console.log("Utilisateur non authentifié");
-        }
-    });
-
-    // Lorsque quelqu'un tape un message, émettre l'événement 'typing'
-    socket.on('typing', (data) => {
-        // Diffuser l'événement aux autres utilisateurs
-        socket.broadcast.emit('typing', { user: data.user, typing: data.typing });
-    });
-
-    // Lorsque l'utilisateur se déconnecte
-    socket.on('disconnect', () => {
-        console.log('Utilisateur déconnecté:', socket.id);
-        // Supprimer l'utilisateur de la liste des utilisateurs connectés
-        for (const email in connectedUsers) {
-            if (connectedUsers[email] === socket.id) {
-                delete connectedUsers[email];
-            }
-        }
-    });
-});
-
 connectDB();
 
 // Middleware CORS
@@ -172,15 +123,7 @@ socket.on('private_message', ({ to, message }) => {
         console.log("Utilisateur non authentifié");
     }
 });
-    
-socket.on('typing', (data) => {
-    if (data.typing) {
-        typingIndicator.style.display = 'block';
-        document.getElementById('typing-user').textContent = data.user;
-    } else {
-        typingIndicator.style.display = 'none';
-    }
-});
+
 
     socket.on('disconnect', () => {
         console.log('Utilisateur déconnecté:', socket.id);
