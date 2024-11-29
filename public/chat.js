@@ -273,27 +273,15 @@ if ("Notification" in window && Notification.permission !== "granted") {
     });
 }
 
-const messageInput = document.getElementById('message-input');
-const typingIndicator = document.getElementById('typing-indicator');
+socket.on('typing', (data) => {
+    const typingIndicator = document.getElementById('typing-indicator');
+    const typingUser = document.getElementById('typing-user');
 
-let typingTimeout;
-let isTyping = false;
-
-// Fonction pour notifier le serveur qu'on tape
-function notifyTyping() {
-    if (!isTyping) {
-        socket.emit('typing', { user: 'John Doe', typing: true });
-        isTyping = true;
+    if (data.typing) {
+        typingIndicator.style.display = 'block';
+        typingUser.textContent = `${data.user} est en train d'écrire...`;
+    } else {
+        typingIndicator.style.display = 'none';
     }
-
-    // Réinitialiser le timeout après chaque frappe
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-        socket.emit('typing', { user: 'John Doe', typing: false });
-        isTyping = false;
-    }, 2000); // 2 secondes sans frappe
-}
-
-// Écoute de l'entrée utilisateur
-messageInput.addEventListener('input', notifyTyping);
+});
 
