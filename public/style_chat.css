@@ -176,17 +176,11 @@ body.dark-mode {
     transition: background-color 0.3s ease;
 }
 
+.dark-mode .sidebar, 
 .dark-mode .chat-container {
     background-color: #2c2c2c;
     border-color: #444;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Mode sombre - Sidebar */
-.dark-mode .sidebar {
-    background-color: #2c2c2c; /* Fond sombre */
-    color: #ccc; /* Texte clair */
-    border-right: 1px solid #444; /* Séparation plus discrète */
 }
 
 .dark-mode .sidebar h2 {
@@ -194,18 +188,11 @@ body.dark-mode {
     transition: color 0.3s ease;
 }
 
+.dark-mode .recipient-input, 
 .dark-mode .message-input textarea {
     background-color: #444;
     color: #ddd;
     border-color: #555;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Mode sombre - Input du destinataire */
-.dark-mode .recipient-input {
-    background-color: #444; /* Fond sombre pour l'input */
-    color: #ddd; /* Texte clair */
-    border: 1px solid #555; /* Bordure grise */
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
