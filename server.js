@@ -53,26 +53,27 @@ app.post('/create-quiz', (req, res) => {
 });
 
 // Gestion des WebSocket pour diffuser et voter
-io.on('connection', (socket) => {
-    console.log('Un utilisateur est connecté');
+ // Réception du quiz et envoi à tous les utilisateurs
+    socket.on('send-quiz', (quizData) => {
+        const { question, options } = quizData;
 
-socket.on('send-quiz', (quizData) => {
-    const { question, options } = quizData;
+        // Diffuse le quiz sous forme de message
+        io.emit('receive_message', {
+            from: socket.user.email,
+            messageType: 'quiz',
+            content: { question, options },
+        });
 
-    // Diffuse le quiz sous forme de message
-    io.to(socket.user.room).emit('receive_message', {
-        from: socket.user.email,
-        messageType: 'quiz',
-        content: { question, options },
+        console.log(`Quiz envoyé par ${socket.user.email}: ${question}`);
     });
 
-    console.log(`Quiz envoyé par ${socket.user.email}: ${question}`);
-});
-}); // <--- FIN du io.on('connection', ...)
-
-socket.on('vote', ({ question, option }) => {
-    console.log(`Vote reçu : ${question} -> ${option}`);
-    io.emit('quiz-results', { question, option });
+    // Réception des votes
+    socket.on('vote', ({ question, option }) => {
+        console.log(`Vote reçu : ${question} -> ${option}`);
+        
+        // Logic to store and process the votes
+        io.emit('quiz-results', { question, option });
+    });
 });
 
 // Middleware pour servir les fichiers statiques
