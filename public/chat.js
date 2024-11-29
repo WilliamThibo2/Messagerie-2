@@ -273,6 +273,7 @@ if ("Notification" in window && Notification.permission !== "granted") {
     });
 }
 
+// Gestion de l'indicateur de saisie dans le chat
 socket.on('typing', (data) => {
     const typingIndicator = document.getElementById('typing-indicator');
     const typingUser = document.getElementById('typing-user');
@@ -283,17 +284,5 @@ socket.on('typing', (data) => {
     } else {
         typingIndicator.style.display = 'none';
     }
-});
-
-// Lorsque l'utilisateur commence à taper un message
-const messageInput = document.getElementById('message-input'); // L'élément de saisie du message
-
-messageInput.addEventListener('input', () => {
-    socket.emit('typing', { user: 'Nom de l\'utilisateur', typing: true });
-
-    // Vous pouvez également ajouter une logique pour arrêter l'indicateur après un certain délai
-    setTimeout(() => {
-        socket.emit('typing', { user: 'Nom de l\'utilisateur', typing: false });
-    }, 1000); // Par exemple, après 1 seconde d'inactivité, l'indicateur disparaît
 });
 
