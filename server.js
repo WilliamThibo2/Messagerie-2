@@ -123,7 +123,15 @@ socket.on('private_message', ({ to, message }) => {
         console.log("Utilisateur non authentifié");
     }
 });
-
+    
+socket.on('typing', (data) => {
+    if (data.typing) {
+        typingIndicator.style.display = 'block';
+        document.getElementById('typing-user').textContent = data.user;
+    } else {
+        typingIndicator.style.display = 'none';
+    }
+});
 
     socket.on('disconnect', () => {
         console.log('Utilisateur déconnecté:', socket.id);
