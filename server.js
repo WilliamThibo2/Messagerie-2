@@ -56,19 +56,18 @@ app.post('/create-quiz', (req, res) => {
 io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté');
 
-    // Diffuser un nouveau quiz
-    socket.on('send-quiz', (quizData) => {
-        const { quizId, question, options } = quizData;
-        io.emit('new-quiz', { quizId, question, options });
+socket.on('send-quiz', (quizData) => {
+    const { question, options } = quizData;
+
+    // Diffuse le quiz sous forme de message
+    io.to(socket.user.room).emit('receive_message', {
+        from: socket.user.email,
+        messageType: 'quiz',
+        content: { question, options },
     });
 
-    // Récolter les votes
-    socket.on('vote', ({ quizId, option }) => {
-        if (quizzes[quizId]) {
-            quizzes[quizId].responses[option] = (quizzes[quizId].responses[option] || 0) + 1;
-            io.emit('quiz-results', { quizId, responses: quizzes[quizId].responses });
-        }
-    });
+    console.log(`Quiz envoyé par ${socket.user.email}: ${question}`);
+});
 }); // <--- FIN du io.on('connection', ...)
     
 // Middleware pour servir les fichiers statiques
