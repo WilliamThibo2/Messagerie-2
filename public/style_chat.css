@@ -99,14 +99,22 @@ body {
     word-wrap: break-word;
 }
 
+/* Messages envoyés */
 .sent-message {
     background-color: #d0e6f6;
     align-self: flex-end;
+    border: 2px solid #3a6f9c; /* Bordure bleue */
+    border-radius: 10px 10px 0 10px; /* Coins arrondis */
+    margin-left: auto; /* Aligne à droite */
 }
 
+/* Messages reçus */
 .received-message {
     background-color: #f5f5f5;
     align-self: flex-start;
+    border: 2px solid #ccc; /* Bordure grise */
+    border-radius: 10px 10px 10px 0; /* Coins arrondis */
+    margin-right: auto; /* Aligne à gauche */
 }
 
 .message-input {
@@ -213,12 +221,14 @@ body.dark-mode {
 .dark-mode .sent-message {
     background-color: #3a6f9c;
     color: #fff;
+    border: 2px solid #2a4f6f; /* Bordure bleu foncé */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-mode .received-message {
     background-color: #333;
     color: #ddd;
+    border: 2px solid #555; /* Bordure gris foncé */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
