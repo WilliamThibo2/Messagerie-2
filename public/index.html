@@ -29,6 +29,9 @@
         <!-- Section principale de chat -->
         <main class="chat-container">
             <ul id="messages" class="messages-list"></ul>
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+            <span id="typing-user"></span> est en train d'écrire...
+            </div>
             <div class="message-input">
                 <button id="emojiButton" class="emoji-button">😊</button>
                 <textarea id="message" placeholder="Écrivez votre message ici..."></textarea>
