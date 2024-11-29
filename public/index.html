@@ -60,18 +60,17 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/chat.js"></script>
     <script>
-        // Vérification du token côté client
 // Vérification du token côté client
-let token = localStorage.getItem('token');
+let token = localStorage.getItem('token'); // Première déclaration
 if (!token) {
     window.location.href = '/login';  // Rediriger si le token n'est pas trouvé
 }
 
-// Si besoin, utilisez la variable token ailleurs sans redéclaration
+// Utilisation du token (ne pas le redéclarer avec let ou const)
 fetch('/api/auth/verifyToken', {
     method: 'POST',
     headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}` // Utilisation directe de token
     }
 })
 .then(response => {
