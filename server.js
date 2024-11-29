@@ -23,6 +23,22 @@ const io = socketIo(server, {
     },
 });
 
+// Lorsque quelqu'un se connecte
+io.on('connection', (socket) => {
+    console.log('Un utilisateur est connecté');
+
+    // Écouter l'état "en train d'écrire"
+    socket.on('typing', (data) => {
+        // Diffuser cet état à tous les autres utilisateurs
+        socket.broadcast.emit('typing', data);
+    });
+
+    // Lorsque quelqu'un se déconnecte
+    socket.on('disconnect', () => {
+        console.log('Un utilisateur s\'est déconnecté');
+    });
+});
+
 connectDB();
 
 // Middleware CORS
