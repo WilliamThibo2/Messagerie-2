@@ -101,23 +101,29 @@ io.on('connection', (socket) => {
     console.log(`${userEmail} connecté avec l'ID ${socket.id}`);
 
     // Réception des messages privés
-    socket.on('private_message', ({ to, message }) => {
-        if (connectedUsers[userEmail]) {
-            const recipientSocket = connectedUsers[to];
+socket.on('private_message', ({ to, message }) => {
+    if (connectedUsers[userEmail]) {
+        // Boucle à travers tous les destinataires
+        to.forEach(recipient => {
+            const recipientSocket = connectedUsers[recipient.trim()]; // Assurez-vous que l'email est bien formaté
+
             if (recipientSocket) {
+                // Envoie du message au destinataire
                 io.to(recipientSocket).emit('receive_message', {
                     from: userEmail,
                     message,
                     timestamp: new Date().toISOString(),
                 });
-                console.log(`Message de ${userEmail} à ${to}: ${message}`);
+                console.log(`Message de ${userEmail} à ${recipient}: ${message}`);
             } else {
-                console.log(`Destinataire ${to} non trouvé`);
+                console.log(`Destinataire ${recipient} non trouvé`);
             }
-        } else {
-            console.log("Utilisateur non authentifié");
-        }
-    });
+        });
+    } else {
+        console.log("Utilisateur non authentifié");
+    }
+});
+
 
     socket.on('disconnect', () => {
         console.log('Utilisateur déconnecté:', socket.id);
