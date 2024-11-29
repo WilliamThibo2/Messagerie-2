@@ -50,6 +50,17 @@
             <pre id="results-container"></pre>
         </div>
                 
+        <div id="create-quiz-form">
+    <h2>Créer un Quiz</h2>
+    <input type="text" id="quiz-question-input" placeholder="Entrez la question">
+    <div id="quiz-options-inputs">
+        <input type="text" class="quiz-option" placeholder="Option 1">
+        <input type="text" class="quiz-option" placeholder="Option 2">
+    </div>
+    <button onclick="addOption()">Ajouter une option</button>
+    <button onclick="createQuiz()">Créer le Quiz</button>
+</div>
+                
 <!-- Sélecteur d'émojis -->
 <div id="emojiPicker" class="emoji-picker">
         <input
